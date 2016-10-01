@@ -10,7 +10,13 @@ import configureStore from './store/root.store';
 import appHistory from './config/appHistory';
 
 
-const initialState = {};
+//Styles
+import styles from  "./scss/index.scss";
+
+const initialState = {
+	apiStatus : "",
+	apiData: [],
+};
 const store = configureStore(initialState);
 
 

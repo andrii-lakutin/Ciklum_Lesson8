@@ -1,0 +1,12 @@
+@import 'variables.scss';
+
+header {
+	width: 300px;
+	height: 40px; 
+	padding: 5px; 
+	text-align: center;
+	font-family: $main-font; 
+	font-size: 40px; 
+	margin: 0 auto;
+	border: 2px solid black;
+}

@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 
 const App = (props) => (
     <div id="app-view">
-        {props.children}
+    	<header>Pokedex</header>
+    	<div className="route">{props.children}</div>
     </div>
 );
 
