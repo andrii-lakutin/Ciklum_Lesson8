@@ -9,7 +9,6 @@ import routes from './config/appRoutes.jsx';
 import configureStore from './store/root.store';
 import appHistory from './config/appHistory';
 
-
 //Styles
 import styles from  "./scss/index.scss";
 
@@ -20,6 +19,9 @@ const initialState = {
 	},
 	favorites: {
 		items: [],
+	},
+	filters:{
+		chosenFilter: 'all',
 	},
 };
 const store = configureStore(initialState);

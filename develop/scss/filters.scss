@@ -1,0 +1,12 @@
+.Filters{
+	display: flex;
+	max-width: 300px;
+	margin: 0 auto;
+	flex-wrap: wrap;
+	justify-content: center;
+	li{
+		margin: 3px;
+		cursor: pointer;
+		padding: 3px;  
+	}
+}

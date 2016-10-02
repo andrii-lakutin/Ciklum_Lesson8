@@ -26,6 +26,7 @@ class Pokemons extends Component {
                 pokemonsArray={this.props.data}
                 loadMoreAction={loadMoreAction}
                 addToFavorite={addToFavorite}
+                currentFilter={this.props.filter}
             />
         );
     }
@@ -39,7 +40,8 @@ Pokemons.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-    data : state.api.apiData
+    data : state.api.apiData,
+    filter : state.filters.chosenFilter,
 });
 
 

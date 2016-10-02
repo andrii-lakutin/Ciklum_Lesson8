@@ -71,3 +71,15 @@
 .fairy{
 	@include types(rgba(224,119,224,.3), rgba(224,119,224,1));
 }
+
+.shadow{
+	@include types(rgba(21,21,21,.3), rgba(94,74,61,1));
+}
+
+.unknown{
+	@include types(rgba(255,255,255,.3), rgba(180,180,180,1));
+}
+
+.all{
+	@include types(rgba(orange,.3), rgba(orange,1));
+}

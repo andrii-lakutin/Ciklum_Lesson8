@@ -483,23 +483,38 @@
 	
 	var _appRoutes2 = _interopRequireDefault(_appRoutes);
 	
-	var _root = __webpack_require__(/*! ./store/root.store */ 574);
+	var _root = __webpack_require__(/*! ./store/root.store */ 581);
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _appHistory = __webpack_require__(/*! ./config/appHistory */ 579);
+	var _appHistory = __webpack_require__(/*! ./config/appHistory */ 587);
 	
 	var _appHistory2 = _interopRequireDefault(_appHistory);
 	
+	var _index = __webpack_require__(/*! ./scss/index.scss */ 600);
+	
+	var _index2 = _interopRequireDefault(_index);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var initialState = {};
+	var initialState = {
+		api: {
+			apiStatus: "",
+			apiData: []
+		},
+		favorites: {
+			items: []
+		}
+	};
+	
+	//Styles
+	
 	var store = (0, _root2.default)(initialState);
 	
 	_reactDom2.default.render(_react2.default.createElement(
-	    _reactRedux.Provider,
-	    { store: store },
-	    _react2.default.createElement(_reactRouter.Router, { children: _appRoutes2.default, history: _appHistory2.default })
+		_reactRedux.Provider,
+		{ store: store },
+		_react2.default.createElement(_reactRouter.Router, { children: _appRoutes2.default, history: _appHistory2.default })
 	), document.getElementById('react-view'));
 
 /***/ },
@@ -38873,17 +38888,22 @@
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _CommonContainer = __webpack_require__(/*! ../containers/Common.container.jsx */ 570);
+	var _PokemonsContainer = __webpack_require__(/*! ../containers/Pokemons.container.jsx */ 570);
 	
-	var _CommonContainer2 = _interopRequireDefault(_CommonContainer);
+	var _PokemonsContainer2 = _interopRequireDefault(_PokemonsContainer);
+	
+	var _FavoritesContainer = __webpack_require__(/*! ../containers/Favorites.container.jsx */ 579);
+	
+	var _FavoritesContainer2 = _interopRequireDefault(_FavoritesContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createElement(
 	    _reactRouter.Route,
 	    { path: '/', component: _App2.default },
-	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'common' }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'common', component: _CommonContainer2.default })
+	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'pokemons' }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'pokemons', component: _PokemonsContainer2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'favorites', component: _FavoritesContainer2.default })
 	);
 	
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "appRoutes.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -38913,7 +38933,16 @@
 	    return _react2.default.createElement(
 	        "div",
 	        { id: "app-view" },
-	        props.children
+	        _react2.default.createElement(
+	            "header",
+	            null,
+	            "Pokedex"
+	        ),
+	        _react2.default.createElement(
+	            "div",
+	            { className: "route" },
+	            props.children
+	        )
 	    );
 	};
 	
@@ -38927,9 +38956,9 @@
 
 /***/ },
 /* 570 */
-/*!*************************************************!*\
-  !*** ./develop/containers/Common.container.jsx ***!
-  \*************************************************/
+/*!***************************************************!*\
+  !*** ./develop/containers/Pokemons.container.jsx ***!
+  \***************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -38939,8 +38968,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -38952,11 +38979,307 @@
 	
 	var _redux = __webpack_require__(/*! redux */ 485);
 	
-	var _common = __webpack_require__(/*! ../actions/common.actions */ 571);
+	var _api = __webpack_require__(/*! ../actions/api.actions */ 571);
 	
-	var _CommonPage = __webpack_require__(/*! ../components/Common.page.jsx */ 573);
+	var _favorites = __webpack_require__(/*! ../actions/favorites.actions */ 574);
 	
-	var _CommonPage2 = _interopRequireDefault(_CommonPage);
+	var _PokemonsPage = __webpack_require__(/*! ../components/Pokemons.page.jsx */ 576);
+	
+	var _PokemonsPage2 = _interopRequireDefault(_PokemonsPage);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	// Actions
+	
+	
+	//не понял как достучатся к состоянию в mapDispatchToProps.
+	var store = [];
+	
+	var Pokemons = function (_Component) {
+	    _inherits(Pokemons, _Component);
+	
+	    function Pokemons() {
+	        _classCallCheck(this, Pokemons);
+	
+	        return _possibleConstructorReturn(this, (Pokemons.__proto__ || Object.getPrototypeOf(Pokemons)).apply(this, arguments));
+	    }
+	
+	    _createClass(Pokemons, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.props.initialLoading();
+	            this.props.getFromStorageAction();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _props = this.props;
+	            var initialLoading = _props.initialLoading;
+	            var loadMoreAction = _props.loadMoreAction;
+	            var addToFavorite = _props.addToFavorite;
+	            var getFromStorage = _props.getFromStorage;
+	
+	            store = this.props.data;
+	            return _react2.default.createElement(_PokemonsPage2.default, {
+	                initialLoading: initialLoading,
+	                pokemonsArray: this.props.data,
+	                loadMoreAction: loadMoreAction,
+	                addToFavorite: addToFavorite
+	            });
+	        }
+	    }]);
+	
+	    return Pokemons;
+	}(_react.Component);
+	
+	Pokemons.propTypes = {
+	    initialLoading: _react.PropTypes.func,
+	    loadMoreAction: _react.PropTypes.func,
+	    addToFavorite: _react.PropTypes.func,
+	    getFromStorageAction: _react.PropTypes.func
+	};
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	    return {
+	        data: state.api.apiData
+	    };
+	};
+	
+	function mapDispatchToProps(dispatch) {
+	    var paging = 12;
+	    return {
+	        initialLoading: function initialLoading() {
+	            return dispatch((0, _api.asyncGet)('http://pokeapi.co/api/v1/pokemon/?limit=12'));
+	        },
+	        loadMoreAction: function loadMoreAction() {
+	            return dispatch((0, _api.asyncGet)('http://pokeapi.co/api/v1/pokemon/?limit=12&offset=' + (paging += 12)));
+	        },
+	        getFromStorageAction: function getFromStorageAction() {
+	            return dispatch((0, _favorites.getFromStorage)());
+	        },
+	        addToFavorite: function addToFavorite(e) {
+	            if (e.target.classList.contains('addFavorite')) {
+	                //где лучше применять стили? тоже через action?
+	                e.target.closest('.pokemonItem').classList.add('highlight');
+	                e.target.classList.add('hidden');
+	
+	                store.map(function (item, index) {
+	                    if (item.name === e.target.closest('.pokemonItem').childNodes[1].innerHTML) {
+	                        localStorage.setItem(item.name, JSON.stringify(item));
+	                        //В параметр ф-ции передается имя покемона
+	                        //Костыль: передаю имя в виде массива, чтобы клеить в state с помощью concat.
+	                        //Причина: метод .push в state вытворет странные чудеса
+	                        return dispatch((0, _favorites.addFavorite)([item]));
+	                    }
+	                });
+	
+	                return;
+	            } else return;
+	        }
+	    };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Pokemons);
+	
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Pokemons.container.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 571 */
+/*!****************************************!*\
+  !*** ./develop/actions/api.actions.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.apiReceive = exports.apiRequest = undefined;
+	exports.asyncGet = asyncGet;
+	
+	var _api = __webpack_require__(/*! ./types/api.types */ 572);
+	
+	var _api2 = _interopRequireDefault(_api);
+	
+	var _getData = __webpack_require__(/*! ../api/getData */ 573);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var apiRequest = exports.apiRequest = function apiRequest(url) {
+	  return {
+	    type: _api2.default.REQUEST_POKEMONS,
+	    url: url
+	  };
+	};
+	
+	var apiReceive = exports.apiReceive = function apiReceive(json) {
+	  return {
+	    type: _api2.default.RECEIVE_POKEMONS,
+	    json: json,
+	    receivedAt: Date.now()
+	  };
+	};
+	
+	function asyncGet(url) {
+	
+	  return function (dispatch) {
+	
+	    dispatch(apiRequest(url));
+	
+	    return (0, _getData.httpGet)(url).then(function (response) {
+	      console.log(JSON.parse(response));
+	      dispatch(apiReceive(JSON.parse(response)));
+	    }, function (error) {
+	      return console.log('Rejected: ' + error);
+	    });
+	  };
+	}
+
+/***/ },
+/* 572 */
+/*!********************************************!*\
+  !*** ./develop/actions/types/api.types.js ***!
+  \********************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = {
+	    REQUEST_POKEMONS: 'REQUEST_POKEMONS',
+	    RECEIVE_POKEMONS: 'RECEIVE_POKEMONS',
+	    LOAD_MORE: 'LOAD_MORE'
+	};
+
+/***/ },
+/* 573 */
+/*!********************************!*\
+  !*** ./develop/api/getData.js ***!
+  \********************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.httpGet = httpGet;
+	function httpGet(url) {
+	
+	  return new Promise(function (resolve, reject) {
+	
+	    var xhr = new XMLHttpRequest();
+	    xhr.open('GET', url, true);
+	
+	    xhr.onload = function () {
+	      if (this.status == 200) {
+	        resolve(this.response);
+	        // console.log(JSON.parse(this.response));
+	      } else {
+	        var error = new Error(this.statusText);
+	        error.code = this.status;
+	        reject(error);
+	      }
+	    };
+	
+	    xhr.onerror = function () {
+	      reject(new Error("Network Error"));
+	    };
+	
+	    xhr.send();
+	  });
+	};
+
+/***/ },
+/* 574 */
+/*!**********************************************!*\
+  !*** ./develop/actions/favorites.actions.js ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.getFromStorage = exports.removeFavorite = exports.addFavorite = undefined;
+	
+	var _favorites = __webpack_require__(/*! ./types/favorites.types */ 575);
+	
+	var _favorites2 = _interopRequireDefault(_favorites);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var addFavorite = exports.addFavorite = function addFavorite(target) {
+	    return {
+	        type: _favorites2.default.ADD_FAVORITE,
+	        target: target
+	    };
+	};
+	
+	var removeFavorite = exports.removeFavorite = function removeFavorite(target) {
+	    return {
+	        type: _favorites2.default.REMOVE_FAVORITE,
+	        target: target
+	    };
+	};
+	
+	var getFromStorage = exports.getFromStorage = function getFromStorage() {
+	    return {
+	        type: _favorites2.default.GET_FROM_STORAGE
+	    };
+	};
+
+/***/ },
+/* 575 */
+/*!**************************************************!*\
+  !*** ./develop/actions/types/favorites.types.js ***!
+  \**************************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = {
+	    ADD_FAVORITE: 'ADD_FAVORITE',
+	    REMOVE_FAVORITE: 'REMOVE_FAVORITE',
+	    GET_FROM_STORAGE: 'GET_FROM_STORAGE'
+	};
+
+/***/ },
+/* 576 */
+/*!**********************************************!*\
+  !*** ./develop/components/Pokemons.page.jsx ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+	
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 308);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _PokemonItem = __webpack_require__(/*! ./PokemonItem.jsx */ 577);
+	
+	var _PokemonItem2 = _interopRequireDefault(_PokemonItem);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -38966,95 +39289,78 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Common = function (_Component) {
-	    _inherits(Common, _Component);
+	var PokemonsPage = function (_Component) {
+	    _inherits(PokemonsPage, _Component);
 	
-	    function Common() {
-	        _classCallCheck(this, Common);
+	    function PokemonsPage() {
+	        _classCallCheck(this, PokemonsPage);
 	
-	        return _possibleConstructorReturn(this, (Common.__proto__ || Object.getPrototypeOf(Common)).apply(this, arguments));
+	        return _possibleConstructorReturn(this, (PokemonsPage.__proto__ || Object.getPrototypeOf(PokemonsPage)).apply(this, arguments));
 	    }
 	
-	    _createClass(Common, [{
+	    _createClass(PokemonsPage, [{
+	        key: 'generatePokemons',
+	        value: function generatePokemons() {
+	
+	            var pokemons = [];
+	
+	            if (this.props.pokemonsArray !== undefined) {
+	                this.props.pokemonsArray.map(function (item, index) {
+	                    pokemons.push(_react2.default.createElement(
+	                        'li',
+	                        { key: index, className: 'itemWrap' },
+	                        _react2.default.createElement(_PokemonItem2.default, {
+	                            name: item.name,
+	                            types: item.types,
+	                            id: item.pkdx_id,
+	                            action: 'add'
+	                        })
+	                    ));
+	                });
+	            }
+	            return pokemons;
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var handleCommonAction = this.props.handleCommonAction;
+	            var _props = this.props;
+	            var loadMoreAction = _props.loadMoreAction;
+	            var addToFavorite = _props.addToFavorite;
 	
 	
-	            return _react2.default.createElement(_CommonPage2.default, {
-	                handleCommonAction: handleCommonAction
-	            });
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'ul',
+	                    { onClick: addToFavorite, className: 'pokemonsWrap' },
+	                    this.generatePokemons()
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'loadMore', onClick: loadMoreAction },
+	                    'Load More'
+	                )
+	            );
 	        }
 	    }]);
 	
-	    return Common;
+	    return PokemonsPage;
 	}(_react.Component);
 	
-	Common.propTypes = {
-	    handleCommonAction: _react.PropTypes.func
+	PokemonsPage.propTypes = {
+	    loadMoreAction: _react.PropTypes.func,
+	    addToFavorite: _react.PropTypes.func
 	};
 	
-	var mapStateTotProps = function mapStateTotProps(state, ownProps) {
-	    return _extends({}, ownProps);
-	};
+	exports.default = PokemonsPage;
 	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownPorps) {
-	    return _extends({}, ownPorps, {
-	        handleCommonAction: (0, _redux.bindActionCreators)(_common.commonAction, dispatch)
-	    });
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateTotProps, mapDispatchToProps)(Common);
-	
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Common.container.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Pokemons.page.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 571 */
-/*!*******************************************!*\
-  !*** ./develop/actions/common.actions.js ***!
-  \*******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.commonAction = undefined;
-	
-	var _common = __webpack_require__(/*! ./types/common.types */ 572);
-	
-	var _common2 = _interopRequireDefault(_common);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var commonAction = exports.commonAction = function commonAction(params) {
-	    return {
-	        type: _common2.default.COMMON_ACTION,
-	        params: params
-	    };
-	};
-
-/***/ },
-/* 572 */
-/*!***********************************************!*\
-  !*** ./develop/actions/types/common.types.js ***!
-  \***********************************************/
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = {
-	    COMMON_ACTION: 'COMMON_ACTION'
-	};
-
-/***/ },
-/* 573 */
+/* 577 */
 /*!********************************************!*\
-  !*** ./develop/components/Common.page.jsx ***!
+  !*** ./develop/components/PokemonItem.jsx ***!
   \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
@@ -39072,6 +39378,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _classnames = __webpack_require__(/*! classnames */ 578);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39080,44 +39390,311 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var CommonPage = function (_Component) {
-	    _inherits(CommonPage, _Component);
+	var PokemonItem = function (_Component) {
+	    _inherits(PokemonItem, _Component);
 	
-	    function CommonPage() {
-	        _classCallCheck(this, CommonPage);
+	    function PokemonItem() {
+	        _classCallCheck(this, PokemonItem);
 	
-	        return _possibleConstructorReturn(this, (CommonPage.__proto__ || Object.getPrototypeOf(CommonPage)).apply(this, arguments));
+	        return _possibleConstructorReturn(this, (PokemonItem.__proto__ || Object.getPrototypeOf(PokemonItem)).apply(this, arguments));
 	    }
 	
-	    _createClass(CommonPage, [{
+	    _createClass(PokemonItem, [{
+	        key: 'generateTypes',
+	        value: function generateTypes() {
+	            var types = [];
+	            this.props.types.map(function (item, index) {
+	                types.push(_react2.default.createElement(
+	                    'li',
+	                    { className: item.name, key: index },
+	                    item.name
+	                ));
+	            });
+	            return types;
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var handleCommonAction = this.props.handleCommonAction;
 	
+	            var classes = (0, _classnames2.default)({
+	                'pokemonItem': true,
+	                'highlight': localStorage.getItem(this.props.name) ? true : false
+	            });
+	
+	            var btnVisibility = (0, _classnames2.default)({
+	                'addFavorite': this.props.action === 'add' ? true : false,
+	                'removeFavorite': localStorage.getItem(this.props.name) ? true : false,
+	                'addFavorite hidden': localStorage.getItem(this.props.name) && this.props.action === 'add' ? true : false
+	            });
 	
 	            return _react2.default.createElement(
 	                'div',
-	                {
-	                    onClick: handleCommonAction
-	                },
-	                'Common page'
+	                { className: classes },
+	                _react2.default.createElement('img', { src: 'http://pokeapi.co/media/img/' + this.props.id + '.png' }),
+	                _react2.default.createElement(
+	                    'h1',
+	                    null,
+	                    this.props.name
+	                ),
+	                _react2.default.createElement(
+	                    'ul',
+	                    null,
+	                    this.generateTypes()
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: btnVisibility },
+	                    this.props.action.toUpperCase()
+	                )
 	            );
 	        }
 	    }]);
 	
-	    return CommonPage;
+	    return PokemonItem;
 	}(_react.Component);
 	
-	CommonPage.propTypes = {
-	    handleCommonAction: _react.PropTypes.func
-	};
+	exports.default = PokemonItem;
 	
-	exports.default = CommonPage;
-	
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Common.page.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "PokemonItem.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 574 */
+/* 578 */
+/*!*******************************!*\
+  !*** ./~/classnames/index.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+	
+	(function () {
+		'use strict';
+	
+		var hasOwn = {}.hasOwnProperty;
+	
+		function classNames () {
+			var classes = [];
+	
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+	
+				var argType = typeof arg;
+	
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+	
+			return classes.join(' ');
+		}
+	
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
+
+/***/ },
+/* 579 */
+/*!****************************************************!*\
+  !*** ./develop/containers/Favorites.container.jsx ***!
+  \****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+	
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 308);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(/*! react-redux */ 478);
+	
+	var _api = __webpack_require__(/*! ../actions/api.actions */ 571);
+	
+	var _favorites = __webpack_require__(/*! ../actions/favorites.actions */ 574);
+	
+	var _FavoritesPage = __webpack_require__(/*! ../components/Favorites.page.jsx */ 580);
+	
+	var _FavoritesPage2 = _interopRequireDefault(_FavoritesPage);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Favorites = function (_Component) {
+	    _inherits(Favorites, _Component);
+	
+	    function Favorites() {
+	        _classCallCheck(this, Favorites);
+	
+	        return _possibleConstructorReturn(this, (Favorites.__proto__ || Object.getPrototypeOf(Favorites)).apply(this, arguments));
+	    }
+	
+	    _createClass(Favorites, [{
+	        key: 'render',
+	        value: function render() {
+	            var removePokemon = this.props.removePokemon;
+	
+	
+	            return _react2.default.createElement(_FavoritesPage2.default, { removePokemon: removePokemon, items: this.props.items });
+	        }
+	    }]);
+	
+	    return Favorites;
+	}(_react.Component);
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	    return {
+	        items: state.favorites.items
+	    };
+	};
+	
+	function mapDispatchToProps(dispatch) {
+	    return {
+	        removePokemon: function removePokemon(e) {
+	            if (e.target.classList.contains('removeFavorite')) {
+	                //в каком месте правильно работать с localStorage?
+	                for (var key in localStorage) {
+	                    var item = JSON.parse(localStorage[key]);
+	                    if (item.name === e.target.closest('.pokemonItem').childNodes[1].innerHTML) {
+	                        localStorage.removeItem(item.name);
+	                        return dispatch((0, _favorites.removeFavorite)(item));
+	                    }
+	                };
+	                return;
+	            } else return;
+	        }
+	    };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Favorites);
+	
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Favorites.container.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 580 */
+/*!***********************************************!*\
+  !*** ./develop/components/Favorites.page.jsx ***!
+  \***********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\node_modules\\react-hot-api\\modules\\index.js"), RootInstanceProvider = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+	
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 308);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _PokemonItem = __webpack_require__(/*! ./PokemonItem.jsx */ 577);
+	
+	var _PokemonItem2 = _interopRequireDefault(_PokemonItem);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var FavoritesPage = function (_Component) {
+	    _inherits(FavoritesPage, _Component);
+	
+	    function FavoritesPage() {
+	        _classCallCheck(this, FavoritesPage);
+	
+	        return _possibleConstructorReturn(this, (FavoritesPage.__proto__ || Object.getPrototypeOf(FavoritesPage)).apply(this, arguments));
+	    }
+	
+	    _createClass(FavoritesPage, [{
+	        key: 'generatePokemons',
+	        value: function generatePokemons() {
+	
+	            var pokemons = [];
+	
+	            this.props.items.map(function (item, index) {
+	                pokemons.push(_react2.default.createElement(
+	                    'li',
+	                    { key: index, className: 'itemWrap' },
+	                    _react2.default.createElement(_PokemonItem2.default, {
+	                        name: item.name,
+	                        types: item.types,
+	                        id: item.pkdx_id,
+	                        action: 'remove'
+	                    })
+	                ));
+	            });
+	
+	            return pokemons;
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _props = this.props;
+	            var removePokemon = _props.removePokemon;
+	            var fav = _props.fav;
+	
+	
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'ul',
+	                    { onClick: removePokemon, className: 'pokemonsWrap' },
+	                    this.generatePokemons()
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return FavoritesPage;
+	}(_react.Component);
+	
+	exports.default = FavoritesPage;
+	
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("D:\\Ciklum\\Lesson8\\node_modules\\react-hot-loader\\makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Favorites.page.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 581 */
 /*!*************************************!*\
   !*** ./develop/store/root.store.js ***!
   \*************************************/
@@ -39132,15 +39709,15 @@
 	
 	var _redux = __webpack_require__(/*! redux */ 485);
 	
-	var _reduxThunk = __webpack_require__(/*! redux-thunk */ 575);
+	var _reduxThunk = __webpack_require__(/*! redux-thunk */ 582);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _reduxLogger = __webpack_require__(/*! redux-logger */ 576);
+	var _reduxLogger = __webpack_require__(/*! redux-logger */ 583);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
-	var _root = __webpack_require__(/*! ../reducers/root.reducer */ 577);
+	var _root = __webpack_require__(/*! ../reducers/root.reducer */ 584);
 	
 	var _root2 = _interopRequireDefault(_root);
 	
@@ -39164,7 +39741,7 @@
 	}
 
 /***/ },
-/* 575 */
+/* 582 */
 /*!************************************!*\
   !*** ./~/redux-thunk/lib/index.js ***!
   \************************************/
@@ -39195,7 +39772,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 576 */
+/* 583 */
 /*!*************************************!*\
   !*** ./~/redux-logger/lib/index.js ***!
   \*************************************/
@@ -39431,7 +40008,7 @@
 	module.exports = createLogger;
 
 /***/ },
-/* 577 */
+/* 584 */
 /*!******************************************!*\
   !*** ./develop/reducers/root.reducer.js ***!
   \******************************************/
@@ -39445,23 +40022,28 @@
 	
 	var _redux = __webpack_require__(/*! redux */ 485);
 	
-	var _common = __webpack_require__(/*! ./common.reducer */ 578);
+	var _favorites = __webpack_require__(/*! ./favorites.reducer */ 585);
 	
-	var _common2 = _interopRequireDefault(_common);
+	var _favorites2 = _interopRequireDefault(_favorites);
+	
+	var _api = __webpack_require__(/*! ./api.reducer */ 586);
+	
+	var _api2 = _interopRequireDefault(_api);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var rootReducer = (0, _redux.combineReducers)({
-	    common: _common2.default
+	    favorites: _favorites2.default,
+	    api: _api2.default
 	});
 	
 	exports.default = rootReducer;
 
 /***/ },
-/* 578 */
-/*!********************************************!*\
-  !*** ./develop/reducers/common.reducer.js ***!
-  \********************************************/
+/* 585 */
+/*!***********************************************!*\
+  !*** ./develop/reducers/favorites.reducer.js ***!
+  \***********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39472,9 +40054,9 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _common = __webpack_require__(/*! ../actions/types/common.types */ 572);
+	var _favorites = __webpack_require__(/*! ../actions/types/favorites.types */ 575);
 	
-	var _common2 = _interopRequireDefault(_common);
+	var _favorites2 = _interopRequireDefault(_favorites);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -39483,16 +40065,79 @@
 	    var action = arguments[1];
 	
 	    switch (action.type) {
-	        case _common2.default.COMMON_ACTION:
-	            return _extends({}, state);
-	
+	        case _favorites2.default.ADD_FAVORITE:
+	            //проверка на повторы
+	            state.items.forEach(function (item, index) {
+	                if (item.name === action.target.name) {
+	                    return _extends({}, state);
+	                } else {
+	                    return _extends({}, state, { items: state.items.concat(action.target) });
+	                }
+	            });
+	        case _favorites2.default.REMOVE_FAVORITE:
+	            state.items.forEach(function (item, index) {
+	                if (action.target.name === item.name) {
+	                    return _extends({}, state, { items: state.items.splice(index, 1) });
+	                } else {
+	                    return _extends({}, state);
+	                }
+	            });
+	        case _favorites2.default.GET_FROM_STORAGE:
+	            var favorites = [];
+	            for (var key in localStorage) {
+	                var item = JSON.parse(localStorage[key]);
+	                favorites.push(item);
+	            }
+	            return _extends({}, state, { items: favorites });
 	        default:
 	            return state;
 	    }
 	};
 
 /***/ },
-/* 579 */
+/* 586 */
+/*!*****************************************!*\
+  !*** ./develop/reducers/api.reducer.js ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _api = __webpack_require__(/*! ../actions/types/api.types */ 572);
+	
+	var _api2 = _interopRequireDefault(_api);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function () {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case _api2.default.REQUEST_POKEMONS:
+	            return _extends({}, state, { apiStatus: 'PENDING' });
+	        case _api2.default.RECEIVE_POKEMONS:
+	            if (state.apiData[0] !== undefined) {
+	                //проверка чтобы не склеивать с изначальным массивом такой же.
+	                if (state.apiData[0].name !== action.json.objects[0].name) {
+	                    return _extends({}, state, { apiStatus: 'COMPLETE', apiData: state.apiData.concat(action.json.objects) });
+	                }
+	            } else {
+	                return _extends({}, state, { apiStatus: 'COMPLETE', apiData: action.json.objects });
+	            }
+	        default:
+	            return state;
+	    }
+	};
+
+/***/ },
+/* 587 */
 /*!**************************************!*\
   !*** ./develop/config/appHistory.js ***!
   \**************************************/
@@ -39506,7 +40151,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 505);
 	
-	var _history = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"history\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _history = __webpack_require__(/*! history */ 588);
 	
 	// Use browser history with server side settings (history-api-fallback)
 	// Ex. For node express see 'express-history-api-fallback'
@@ -39519,6 +40164,1380 @@
 	var appHistory = (0, _reactRouter.useRouterHistory)(_history.createHashHistory)({ queryKey: false });
 	
 	exports.default = appHistory;
+
+/***/ },
+/* 588 */
+/*!****************************!*\
+  !*** ./~/history/index.js ***!
+  \****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.createPath = exports.parsePath = exports.locationsAreEqual = exports.createLocation = exports.createMemoryHistory = exports.createHashHistory = exports.createBrowserHistory = undefined;
+	
+	var _LocationUtils = __webpack_require__(/*! ./LocationUtils */ 589);
+	
+	Object.defineProperty(exports, 'createLocation', {
+	  enumerable: true,
+	  get: function get() {
+	    return _LocationUtils.createLocation;
+	  }
+	});
+	Object.defineProperty(exports, 'locationsAreEqual', {
+	  enumerable: true,
+	  get: function get() {
+	    return _LocationUtils.locationsAreEqual;
+	  }
+	});
+	
+	var _PathUtils = __webpack_require__(/*! ./PathUtils */ 591);
+	
+	Object.defineProperty(exports, 'parsePath', {
+	  enumerable: true,
+	  get: function get() {
+	    return _PathUtils.parsePath;
+	  }
+	});
+	Object.defineProperty(exports, 'createPath', {
+	  enumerable: true,
+	  get: function get() {
+	    return _PathUtils.createPath;
+	  }
+	});
+	
+	var _createBrowserHistory2 = __webpack_require__(/*! ./createBrowserHistory */ 592);
+	
+	var _createBrowserHistory3 = _interopRequireDefault(_createBrowserHistory2);
+	
+	var _createHashHistory2 = __webpack_require__(/*! ./createHashHistory */ 598);
+	
+	var _createHashHistory3 = _interopRequireDefault(_createHashHistory2);
+	
+	var _createMemoryHistory2 = __webpack_require__(/*! ./createMemoryHistory */ 599);
+	
+	var _createMemoryHistory3 = _interopRequireDefault(_createMemoryHistory2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.createBrowserHistory = _createBrowserHistory3.default;
+	exports.createHashHistory = _createHashHistory3.default;
+	exports.createMemoryHistory = _createMemoryHistory3.default;
+
+/***/ },
+/* 589 */
+/*!************************************!*\
+  !*** ./~/history/LocationUtils.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.locationsAreEqual = exports.createLocation = undefined;
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _resolvePathname = __webpack_require__(/*! resolve-pathname */ 590);
+	
+	var _resolvePathname2 = _interopRequireDefault(_resolvePathname);
+	
+	var _PathUtils = __webpack_require__(/*! ./PathUtils */ 591);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var createLocation = exports.createLocation = function createLocation(path, state, key, currentLocation) {
+	  var location = void 0;
+	  if (typeof path === 'string') {
+	    // Two-arg form: push(path, state)
+	    location = (0, _PathUtils.parsePath)(path);
+	    location.state = state;
+	  } else {
+	    // One-arg form: push(location)
+	    location = _extends({}, path);
+	
+	    if (location.pathname === undefined) location.pathname = '';
+	
+	    if (location.search) {
+	      if (location.search.charAt(0) !== '?') location.search = '?' + location.search;
+	    } else {
+	      location.search = '';
+	    }
+	
+	    if (location.hash) {
+	      if (location.hash.charAt(0) !== '#') location.hash = '#' + location.hash;
+	    } else {
+	      location.hash = '';
+	    }
+	
+	    if (state !== undefined && location.state === undefined) location.state = state;
+	  }
+	
+	  location.key = key;
+	
+	  if (currentLocation) {
+	    // Resolve incomplete/relative pathname relative to current location.
+	    if (!location.pathname) {
+	      location.pathname = currentLocation.pathname;
+	    } else if (location.pathname.charAt(0) !== '/') {
+	      location.pathname = (0, _resolvePathname2.default)(location.pathname, currentLocation.pathname);
+	    }
+	  }
+	
+	  return location;
+	};
+	
+	var looseEqual = function looseEqual(a, b) {
+	  if (a == null) return a == b;
+	
+	  var typeofA = typeof a === 'undefined' ? 'undefined' : _typeof(a);
+	  var typeofB = typeof b === 'undefined' ? 'undefined' : _typeof(b);
+	
+	  if (typeofA !== typeofB) return false;
+	
+	  if (Array.isArray(a)) {
+	    if (!Array.isArray(b) || a.length !== b.length) return false;
+	
+	    return a.every(function (item, index) {
+	      return looseEqual(item, b[index]);
+	    });
+	  } else if (typeofA === 'object') {
+	    var aKeys = Object.keys(a);
+	    var bKeys = Object.keys(b);
+	
+	    if (aKeys.length !== bKeys.length) return false;
+	
+	    return aKeys.every(function (key) {
+	      return looseEqual(a[key], b[key]);
+	    });
+	  }
+	
+	  return a === b;
+	};
+	
+	var locationsAreEqual = exports.locationsAreEqual = function locationsAreEqual(a, b) {
+	  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && a.key === b.key && looseEqual(a.state, b.state);
+	};
+
+/***/ },
+/* 590 */
+/*!******************************************************************!*\
+  !*** ./~/history/~/resolve-pathname/umd/resolve-pathname.min.js ***!
+  \******************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	!function(t,e){ true?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.resolvePathname=e():t.resolvePathname=e()}(this,function(){return function(t){function e(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return t[n].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var r={};return e.m=t,e.c=r,e.p="",e(0)}([function(t,e){"use strict";var r=function(t){return"/"===t.charAt(0)},n=function(t,e){for(var r=e,n=r+1,o=t.length;o>n;r+=1,n+=1)t[r]=t[n];t.pop()},o=function(t){var e=arguments.length<=1||void 0===arguments[1]?"":arguments[1],o=t&&t.split("/")||[],i=e&&e.split("/")||[],f=t&&r(t),s=e&&r(e),u=f||s;if(t&&r(t)?i=o:o.length&&(i.pop(),i=i.concat(o)),!i.length)return"/";var p=void 0;if(i.length){var a=i[i.length-1];p="."===a||".."===a||""===a}else p=!1;for(var c=0,l=i.length;l>=0;l--){var v=i[l];"."===v?n(i,l):".."===v?(n(i,l),c++):c&&(n(i,l),c--)}if(!u)for(;c--;c)i.unshift("..");!u||""===i[0]||i[0]&&r(i[0])||i.unshift("");var d=i.join("/");return p&&"/"!==d.substr(-1)&&(d+="/"),d};t.exports=o}])});
+
+/***/ },
+/* 591 */
+/*!********************************!*\
+  !*** ./~/history/PathUtils.js ***!
+  \********************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	var addLeadingSlash = exports.addLeadingSlash = function addLeadingSlash(path) {
+	  return path.charAt(0) === '/' ? path : '/' + path;
+	};
+	
+	var stripLeadingSlash = exports.stripLeadingSlash = function stripLeadingSlash(path) {
+	  return path.charAt(0) === '/' ? path.substr(1) : path;
+	};
+	
+	var stripPrefix = exports.stripPrefix = function stripPrefix(path, prefix) {
+	  return path.indexOf(prefix) === 0 ? path.substr(prefix.length) : path;
+	};
+	
+	var parsePath = exports.parsePath = function parsePath(path) {
+	  var pathname = path || '/';
+	  var search = '';
+	  var hash = '';
+	
+	  var hashIndex = pathname.indexOf('#');
+	  if (hashIndex !== -1) {
+	    hash = pathname.substr(hashIndex);
+	    pathname = pathname.substr(0, hashIndex);
+	  }
+	
+	  var searchIndex = pathname.indexOf('?');
+	  if (searchIndex !== -1) {
+	    search = pathname.substr(searchIndex);
+	    pathname = pathname.substr(0, searchIndex);
+	  }
+	
+	  return {
+	    pathname: pathname,
+	    search: search === '?' ? '' : search,
+	    hash: hash === '#' ? '' : hash
+	  };
+	};
+	
+	var createPath = exports.createPath = function createPath(location) {
+	  var pathname = location.pathname;
+	  var search = location.search;
+	  var hash = location.hash;
+	
+	
+	  var path = pathname || '/';
+	
+	  if (search && search !== '?') path += search.charAt(0) === '?' ? search : '?' + search;
+	
+	  if (hash && hash !== '#') path += hash.charAt(0) === '#' ? hash : '#' + hash;
+	
+	  return path;
+	};
+
+/***/ },
+/* 592 */
+/*!*******************************************!*\
+  !*** ./~/history/createBrowserHistory.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	exports.__esModule = true;
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _warning = __webpack_require__(/*! warning */ 593);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	var _invariant = __webpack_require__(/*! invariant */ 594);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _LocationUtils = __webpack_require__(/*! ./LocationUtils */ 589);
+	
+	var _PathUtils = __webpack_require__(/*! ./PathUtils */ 591);
+	
+	var _createTransitionManager = __webpack_require__(/*! ./createTransitionManager */ 595);
+	
+	var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
+	
+	var _ExecutionEnvironment = __webpack_require__(/*! ./ExecutionEnvironment */ 596);
+	
+	var _DOMUtils = __webpack_require__(/*! ./DOMUtils */ 597);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var PopStateEvent = 'popstate';
+	var HashChangeEvent = 'hashchange';
+	
+	var getHistoryState = function getHistoryState() {
+	  try {
+	    return window.history.state || {};
+	  } catch (e) {
+	    // IE 11 sometimes throws when accessing window.history.state
+	    // See https://github.com/mjackson/history/pull/289
+	    return {};
+	  }
+	};
+	
+	/**
+	 * Creates a history object that uses the HTML5 history API including
+	 * pushState, replaceState, and the popstate event.
+	 */
+	var createBrowserHistory = function createBrowserHistory() {
+	  var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	  !_ExecutionEnvironment.canUseDOM ? process.env.NODE_ENV !== 'production' ? (0, _invariant2.default)(false, 'Browser history needs a DOM') : (0, _invariant2.default)(false) : void 0;
+	
+	  var globalHistory = window.history;
+	  var canUseHistory = (0, _DOMUtils.supportsHistory)();
+	  var needsHashChangeListener = !(0, _DOMUtils.supportsPopStateOnHashChange)();
+	
+	  var _props$basename = props.basename;
+	  var basename = _props$basename === undefined ? '' : _props$basename;
+	  var _props$forceRefresh = props.forceRefresh;
+	  var forceRefresh = _props$forceRefresh === undefined ? false : _props$forceRefresh;
+	  var _props$getUserConfirm = props.getUserConfirmation;
+	  var getUserConfirmation = _props$getUserConfirm === undefined ? _DOMUtils.getConfirmation : _props$getUserConfirm;
+	  var _props$keyLength = props.keyLength;
+	  var keyLength = _props$keyLength === undefined ? 6 : _props$keyLength;
+	
+	
+	  var getDOMLocation = function getDOMLocation(historyState) {
+	    var _ref = historyState || {};
+	
+	    var key = _ref.key;
+	    var state = _ref.state;
+	    var _window$location = window.location;
+	    var pathname = _window$location.pathname;
+	    var search = _window$location.search;
+	    var hash = _window$location.hash;
+	
+	
+	    var path = pathname + search + hash;
+	
+	    if (basename) path = (0, _PathUtils.stripPrefix)(path, basename);
+	
+	    return _extends({}, (0, _PathUtils.parsePath)(path), {
+	      state: state,
+	      key: key
+	    });
+	  };
+	
+	  var createKey = function createKey() {
+	    return Math.random().toString(36).substr(2, keyLength);
+	  };
+	
+	  var transitionManager = (0, _createTransitionManager2.default)();
+	
+	  var setState = function setState(nextState) {
+	    _extends(history, nextState);
+	
+	    history.length = globalHistory.length;
+	
+	    transitionManager.notifyListeners(history.location, history.action);
+	  };
+	
+	  var handlePopState = function handlePopState(event) {
+	    if (event.state === undefined) return; // Ignore extraneous popstate events in WebKit.
+	
+	    handlePop(getDOMLocation(event.state));
+	  };
+	
+	  var handleHashChange = function handleHashChange() {
+	    handlePop(getDOMLocation(getHistoryState()));
+	  };
+	
+	  var forceNextPop = false;
+	
+	  var handlePop = function handlePop(location) {
+	    if (forceNextPop) {
+	      forceNextPop = false;
+	      setState();
+	    } else {
+	      (function () {
+	        var action = 'POP';
+	
+	        transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+	          if (ok) {
+	            setState({ action: action, location: location });
+	          } else {
+	            revertPop(location);
+	          }
+	        });
+	      })();
+	    }
+	  };
+	
+	  var revertPop = function revertPop(fromLocation) {
+	    var toLocation = history.location;
+	
+	    // TODO: We could probably make this more reliable by
+	    // keeping a list of keys we've seen in sessionStorage.
+	    // Instead, we just default to 0 for keys we don't know.
+	
+	    var toIndex = allKeys.indexOf(toLocation.key);
+	
+	    if (toIndex === -1) toIndex = 0;
+	
+	    var fromIndex = allKeys.indexOf(fromLocation.key);
+	
+	    if (fromIndex === -1) fromIndex = 0;
+	
+	    var delta = toIndex - fromIndex;
+	
+	    if (delta) {
+	      forceNextPop = true;
+	      go(delta);
+	    }
+	  };
+	
+	  var initialLocation = getDOMLocation(getHistoryState());
+	  var allKeys = [initialLocation.key];
+	
+	  // Public interface
+	
+	  var push = function push(path, state) {
+	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : void 0;
+	
+	    var action = 'PUSH';
+	    var location = (0, _LocationUtils.createLocation)(path, state, createKey(), history.location);
+	
+	    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+	      if (!ok) return;
+	
+	      var url = basename + (0, _PathUtils.createPath)(location);
+	      var key = location.key;
+	      var state = location.state;
+	
+	
+	      if (canUseHistory) {
+	        globalHistory.pushState({ key: key, state: state }, null, url);
+	
+	        if (forceRefresh) {
+	          window.location.href = url;
+	        } else {
+	          var prevIndex = allKeys.indexOf(history.location.key);
+	          var nextKeys = allKeys.slice(0, prevIndex === -1 ? 0 : prevIndex + 1);
+	
+	          nextKeys.push(location.key);
+	          allKeys = nextKeys;
+	
+	          setState({ action: action, location: location });
+	        }
+	      } else {
+	        process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(state === undefined, 'Browser history cannot push state in browsers that do not support HTML5 history') : void 0;
+	
+	        window.location.href = url;
+	      }
+	    });
+	  };
+	
+	  var replace = function replace(path, state) {
+	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : void 0;
+	
+	    var action = 'REPLACE';
+	    var location = (0, _LocationUtils.createLocation)(path, state, createKey(), history.location);
+	
+	    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+	      if (!ok) return;
+	
+	      var url = basename + (0, _PathUtils.createPath)(location);
+	      var key = location.key;
+	      var state = location.state;
+	
+	
+	      if (canUseHistory) {
+	        globalHistory.replaceState({ key: key, state: state }, null, url);
+	
+	        if (forceRefresh) {
+	          window.location.replace(url);
+	        } else {
+	          var prevIndex = allKeys.indexOf(history.location.key);
+	
+	          if (prevIndex !== -1) allKeys[prevIndex] = location.key;
+	
+	          setState({ action: action, location: location });
+	        }
+	      } else {
+	        process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(state === undefined, 'Browser history cannot replace state in browsers that do not support HTML5 history') : void 0;
+	
+	        window.location.replace(url);
+	      }
+	    });
+	  };
+	
+	  var go = function go(n) {
+	    globalHistory.go(n);
+	  };
+	
+	  var goBack = function goBack() {
+	    return go(-1);
+	  };
+	
+	  var goForward = function goForward() {
+	    return go(1);
+	  };
+	
+	  var listenerCount = 0;
+	
+	  var checkDOMListeners = function checkDOMListeners(delta) {
+	    listenerCount += delta;
+	
+	    if (listenerCount === 1) {
+	      (0, _DOMUtils.addEventListener)(window, PopStateEvent, handlePopState);
+	
+	      if (needsHashChangeListener) (0, _DOMUtils.addEventListener)(window, HashChangeEvent, handleHashChange);
+	    } else if (listenerCount === 0) {
+	      (0, _DOMUtils.removeEventListener)(window, PopStateEvent, handlePopState);
+	
+	      if (needsHashChangeListener) (0, _DOMUtils.removeEventListener)(window, HashChangeEvent, handleHashChange);
+	    }
+	  };
+	
+	  var isBlocked = false;
+	
+	  var block = function block() {
+	    var prompt = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	
+	    var unblock = transitionManager.setPrompt(prompt);
+	
+	    if (!isBlocked) {
+	      checkDOMListeners(1);
+	      isBlocked = true;
+	    }
+	
+	    return function () {
+	      if (isBlocked) {
+	        isBlocked = false;
+	        checkDOMListeners(-1);
+	      }
+	
+	      return unblock();
+	    };
+	  };
+	
+	  var listen = function listen(listener) {
+	    var unlisten = transitionManager.appendListener(listener);
+	    checkDOMListeners(1);
+	
+	    return function () {
+	      checkDOMListeners(-1);
+	      return unlisten();
+	    };
+	  };
+	
+	  var history = {
+	    length: globalHistory.length,
+	    action: 'POP',
+	    location: initialLocation,
+	    push: push,
+	    replace: replace,
+	    go: go,
+	    goBack: goBack,
+	    goForward: goForward,
+	    block: block,
+	    listen: listen
+	  };
+	
+	  return history;
+	};
+	
+	exports.default = createBrowserHistory;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 304)))
+
+/***/ },
+/* 593 */
+/*!****************************************!*\
+  !*** ./~/history/~/warning/browser.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	'use strict';
+	
+	/**
+	 * Similar to invariant but only logs a warning if the condition is not met.
+	 * This can be used to log issues in development environments in critical
+	 * paths. Removing the logging code for production environments will keep the
+	 * same logic and follow the same code paths.
+	 */
+	
+	var warning = function() {};
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  warning = function(condition, format, args) {
+	    var len = arguments.length;
+	    args = new Array(len > 2 ? len - 2 : 0);
+	    for (var key = 2; key < len; key++) {
+	      args[key - 2] = arguments[key];
+	    }
+	    if (format === undefined) {
+	      throw new Error(
+	        '`warning(condition, format, ...args)` requires a warning ' +
+	        'message argument'
+	      );
+	    }
+	
+	    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
+	      throw new Error(
+	        'The warning format should be able to uniquely identify this ' +
+	        'warning. Please, use a more descriptive format than: ' + format
+	      );
+	    }
+	
+	    if (!condition) {
+	      var argIndex = 0;
+	      var message = 'Warning: ' +
+	        format.replace(/%s/g, function() {
+	          return args[argIndex++];
+	        });
+	      if (typeof console !== 'undefined') {
+	        console.error(message);
+	      }
+	      try {
+	        // This error was thrown as a convenience so that you can use this stack
+	        // to find the callsite that caused this warning to fire.
+	        throw new Error(message);
+	      } catch(x) {}
+	    }
+	  };
+	}
+	
+	module.exports = warning;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 304)))
+
+/***/ },
+/* 594 */
+/*!******************************************!*\
+  !*** ./~/history/~/invariant/browser.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	'use strict';
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var invariant = function(condition, format, a, b, c, d, e, f) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error(
+	        'Minified exception occurred; use the non-minified dev environment ' +
+	        'for the full error message and additional helpful warnings.'
+	      );
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(
+	        format.replace(/%s/g, function() { return args[argIndex++]; })
+	      );
+	      error.name = 'Invariant Violation';
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+	
+	module.exports = invariant;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 304)))
+
+/***/ },
+/* 595 */
+/*!**********************************************!*\
+  !*** ./~/history/createTransitionManager.js ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	exports.__esModule = true;
+	
+	var _warning = __webpack_require__(/*! warning */ 593);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var createTransitionManager = function createTransitionManager() {
+	  var prompt = null;
+	
+	  var setPrompt = function setPrompt(nextPrompt) {
+	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(prompt == null, 'A history supports only one prompt at a time') : void 0;
+	
+	    prompt = nextPrompt;
+	
+	    return function () {
+	      if (prompt === nextPrompt) prompt = null;
+	    };
+	  };
+	
+	  var confirmTransitionTo = function confirmTransitionTo(location, action, getUserConfirmation, callback) {
+	    // TODO: If another transition starts while we're still confirming
+	    // the previous one, we may end up in a weird state. Figure out the
+	    // best way to handle this.
+	    if (prompt != null) {
+	      var result = typeof prompt === 'function' ? prompt(location, action) : prompt;
+	
+	      if (typeof result === 'string') {
+	        if (typeof getUserConfirmation === 'function') {
+	          getUserConfirmation(result, callback);
+	        } else {
+	          process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(false, 'A history needs a getUserConfirmation function in order to use a prompt message') : void 0;
+	
+	          callback(true);
+	        }
+	      } else {
+	        // Return false from a transition hook to cancel the transition.
+	        callback(result !== false);
+	      }
+	    } else {
+	      callback(true);
+	    }
+	  };
+	
+	  var listeners = [];
+	
+	  var appendListener = function appendListener(listener) {
+	    listeners.push(listener);
+	
+	    return function () {
+	      listeners = listeners.filter(function (item) {
+	        return item !== listener;
+	      });
+	    };
+	  };
+	
+	  var notifyListeners = function notifyListeners() {
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return listeners.forEach(function (listener) {
+	      return listener.apply(undefined, args);
+	    });
+	  };
+	
+	  return {
+	    setPrompt: setPrompt,
+	    confirmTransitionTo: confirmTransitionTo,
+	    appendListener: appendListener,
+	    notifyListeners: notifyListeners
+	  };
+	};
+	
+	exports.default = createTransitionManager;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 304)))
+
+/***/ },
+/* 596 */
+/*!*******************************************!*\
+  !*** ./~/history/ExecutionEnvironment.js ***!
+  \*******************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	var canUseDOM = exports.canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+
+/***/ },
+/* 597 */
+/*!*******************************!*\
+  !*** ./~/history/DOMUtils.js ***!
+  \*******************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	var addEventListener = exports.addEventListener = function addEventListener(node, event, listener) {
+	  return node.addEventListener ? node.addEventListener(event, listener, false) : node.attachEvent('on' + event, listener);
+	};
+	
+	var removeEventListener = exports.removeEventListener = function removeEventListener(node, event, listener) {
+	  return node.removeEventListener ? node.removeEventListener(event, listener, false) : node.detachEvent('on' + event, listener);
+	};
+	
+	var getConfirmation = exports.getConfirmation = function getConfirmation(message, callback) {
+	  return callback(window.confirm(message));
+	}; // eslint-disable-line no-alert
+	
+	/**
+	 * Returns true if the HTML5 history API is supported. Taken from Modernizr.
+	 *
+	 * https://github.com/Modernizr/Modernizr/blob/master/LICENSE
+	 * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/history.js
+	 * changed to avoid false negatives for Windows Phones: https://github.com/reactjs/react-router/issues/586
+	 */
+	var supportsHistory = exports.supportsHistory = function supportsHistory() {
+	  var ua = window.navigator.userAgent;
+	
+	  if ((ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) && ua.indexOf('Mobile Safari') !== -1 && ua.indexOf('Chrome') === -1 && ua.indexOf('Windows Phone') === -1) return false;
+	
+	  return window.history && 'pushState' in window.history;
+	};
+	
+	/**
+	 * Returns true if browser fires popstate on hash change.
+	 * IE10 and IE11 do not.
+	 */
+	var supportsPopStateOnHashChange = exports.supportsPopStateOnHashChange = function supportsPopStateOnHashChange() {
+	  return window.navigator.userAgent.indexOf('Trident') === -1;
+	};
+	
+	/**
+	 * Returns false if using go(n) with hash history causes a full page reload.
+	 */
+	var supportsGoWithoutReloadUsingHash = exports.supportsGoWithoutReloadUsingHash = function supportsGoWithoutReloadUsingHash() {
+	  return window.navigator.userAgent.indexOf('Firefox') === -1;
+	};
+
+/***/ },
+/* 598 */
+/*!****************************************!*\
+  !*** ./~/history/createHashHistory.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	exports.__esModule = true;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _warning = __webpack_require__(/*! warning */ 593);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	var _invariant = __webpack_require__(/*! invariant */ 594);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _LocationUtils = __webpack_require__(/*! ./LocationUtils */ 589);
+	
+	var _PathUtils = __webpack_require__(/*! ./PathUtils */ 591);
+	
+	var _createTransitionManager = __webpack_require__(/*! ./createTransitionManager */ 595);
+	
+	var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
+	
+	var _ExecutionEnvironment = __webpack_require__(/*! ./ExecutionEnvironment */ 596);
+	
+	var _DOMUtils = __webpack_require__(/*! ./DOMUtils */ 597);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var HashChangeEvent = 'hashchange';
+	
+	var HashPathCoders = {
+	  hashbang: {
+	    encodePath: function encodePath(path) {
+	      return path.charAt(0) === '!' ? path : '!/' + (0, _PathUtils.stripLeadingSlash)(path);
+	    },
+	    decodePath: function decodePath(path) {
+	      return path.charAt(0) === '!' ? path.substr(1) : path;
+	    }
+	  },
+	  noslash: {
+	    encodePath: _PathUtils.stripLeadingSlash,
+	    decodePath: _PathUtils.addLeadingSlash
+	  },
+	  slash: {
+	    encodePath: _PathUtils.addLeadingSlash,
+	    decodePath: _PathUtils.addLeadingSlash
+	  }
+	};
+	
+	var getHashPath = function getHashPath() {
+	  // We can't use window.location.hash here because it's not
+	  // consistent across browsers - Firefox will pre-decode it!
+	  var href = window.location.href;
+	  var hashIndex = href.indexOf('#');
+	  return hashIndex === -1 ? '' : href.substring(hashIndex + 1);
+	};
+	
+	var pushHashPath = function pushHashPath(path) {
+	  return window.location.hash = path;
+	};
+	
+	var replaceHashPath = function replaceHashPath(path) {
+	  var hashIndex = window.location.href.indexOf('#');
+	
+	  window.location.replace(window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + path);
+	};
+	
+	var createHashHistory = function createHashHistory() {
+	  var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	  !_ExecutionEnvironment.canUseDOM ? process.env.NODE_ENV !== 'production' ? (0, _invariant2.default)(false, 'Hash history needs a DOM') : (0, _invariant2.default)(false) : void 0;
+	
+	  var globalHistory = window.history;
+	  var canGoWithoutReload = (0, _DOMUtils.supportsGoWithoutReloadUsingHash)();
+	
+	  var _props$basename = props.basename;
+	  var basename = _props$basename === undefined ? '' : _props$basename;
+	  var _props$getUserConfirm = props.getUserConfirmation;
+	  var getUserConfirmation = _props$getUserConfirm === undefined ? _DOMUtils.getConfirmation : _props$getUserConfirm;
+	  var _props$hashType = props.hashType;
+	  var hashType = _props$hashType === undefined ? 'slash' : _props$hashType;
+	  var _HashPathCoders$hashT = HashPathCoders[hashType];
+	  var encodePath = _HashPathCoders$hashT.encodePath;
+	  var decodePath = _HashPathCoders$hashT.decodePath;
+	
+	
+	  var getDOMLocation = function getDOMLocation() {
+	    var path = decodePath(getHashPath());
+	
+	    if (basename) path = (0, _PathUtils.stripPrefix)(path, basename);
+	
+	    return (0, _PathUtils.parsePath)(path);
+	  };
+	
+	  var transitionManager = (0, _createTransitionManager2.default)();
+	
+	  var setState = function setState(nextState) {
+	    _extends(history, nextState);
+	
+	    history.length = globalHistory.length;
+	
+	    transitionManager.notifyListeners(history.location, history.action);
+	  };
+	
+	  var forceNextPop = false;
+	  var ignorePath = null;
+	
+	  var handleHashChange = function handleHashChange() {
+	    var path = getHashPath();
+	    var encodedPath = encodePath(path);
+	
+	    if (path !== encodedPath) {
+	      // Ensure we always have a properly-encoded hash.
+	      replaceHashPath(encodedPath);
+	    } else {
+	      var location = getDOMLocation();
+	      var prevLocation = history.location;
+	
+	      if (!forceNextPop && (0, _LocationUtils.locationsAreEqual)(prevLocation, location)) return; // A hashchange doesn't always == location change.
+	
+	      if (ignorePath === (0, _PathUtils.createPath)(location)) return; // Ignore this change; we already setState in push/replace.
+	
+	      ignorePath = null;
+	
+	      handlePop(location);
+	    }
+	  };
+	
+	  var handlePop = function handlePop(location) {
+	    if (forceNextPop) {
+	      forceNextPop = false;
+	      setState();
+	    } else {
+	      (function () {
+	        var action = 'POP';
+	
+	        transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+	          if (ok) {
+	            setState({ action: action, location: location });
+	          } else {
+	            revertPop(location);
+	          }
+	        });
+	      })();
+	    }
+	  };
+	
+	  var revertPop = function revertPop(fromLocation) {
+	    var toLocation = history.location;
+	
+	    // TODO: We could probably make this more reliable by
+	    // keeping a list of paths we've seen in sessionStorage.
+	    // Instead, we just default to 0 for paths we don't know.
+	
+	    var toIndex = allPaths.lastIndexOf((0, _PathUtils.createPath)(toLocation));
+	
+	    if (toIndex === -1) toIndex = 0;
+	
+	    var fromIndex = allPaths.lastIndexOf((0, _PathUtils.createPath)(fromLocation));
+	
+	    if (fromIndex === -1) fromIndex = 0;
+	
+	    var delta = toIndex - fromIndex;
+	
+	    if (delta) {
+	      forceNextPop = true;
+	      go(delta);
+	    }
+	  };
+	
+	  // Ensure the hash is encoded properly before doing anything else.
+	  var path = getHashPath();
+	  var encodedPath = encodePath(path);
+	
+	  if (path !== encodedPath) replaceHashPath(encodedPath);
+	
+	  var initialLocation = getDOMLocation();
+	  var allPaths = [(0, _PathUtils.createPath)(initialLocation)];
+	
+	  // Public interface
+	
+	  var push = function push(path, state) {
+	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(state === undefined, 'Hash history cannot push state; it is ignored') : void 0;
+	
+	    var action = 'PUSH';
+	    var location = (0, _LocationUtils.createLocation)(path, undefined, undefined, history.location);
+	
+	    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+	      if (!ok) return;
+	
+	      var path = (0, _PathUtils.createPath)(location);
+	      var encodedPath = encodePath(basename + path);
+	      var hashChanged = getHashPath() !== encodedPath;
+	
+	      if (hashChanged) {
+	        // We cannot tell if a hashchange was caused by a PUSH, so we'd
+	        // rather setState here and ignore the hashchange. The caveat here
+	        // is that other hash histories in the page will consider it a POP.
+	        ignorePath = path;
+	        pushHashPath(encodedPath);
+	
+	        var prevIndex = allPaths.lastIndexOf((0, _PathUtils.createPath)(history.location));
+	        var nextPaths = allPaths.slice(0, prevIndex === -1 ? 0 : prevIndex + 1);
+	
+	        nextPaths.push(path);
+	        allPaths = nextPaths;
+	
+	        setState({ action: action, location: location });
+	      } else {
+	        process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(false, 'Hash history cannot PUSH the same path; a new entry will not be added to the history stack') : void 0;
+	
+	        setState();
+	      }
+	    });
+	  };
+	
+	  var replace = function replace(path, state) {
+	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(state === undefined, 'Hash history cannot replace state; it is ignored') : void 0;
+	
+	    var action = 'REPLACE';
+	    var location = (0, _LocationUtils.createLocation)(path, undefined, undefined, history.location);
+	
+	    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+	      if (!ok) return;
+	
+	      var path = (0, _PathUtils.createPath)(location);
+	      var encodedPath = encodePath(basename + path);
+	      var hashChanged = getHashPath() !== encodedPath;
+	
+	      if (hashChanged) {
+	        // We cannot tell if a hashchange was caused by a REPLACE, so we'd
+	        // rather setState here and ignore the hashchange. The caveat here
+	        // is that other hash histories in the page will consider it a POP.
+	        ignorePath = path;
+	        replaceHashPath(encodedPath);
+	      }
+	
+	      var prevIndex = allPaths.indexOf((0, _PathUtils.createPath)(history.location));
+	
+	      if (prevIndex !== -1) allPaths[prevIndex] = path;
+	
+	      setState({ action: action, location: location });
+	    });
+	  };
+	
+	  var go = function go(n) {
+	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(canGoWithoutReload, 'Hash history go(n) causes a full page reload in this browser') : void 0;
+	
+	    globalHistory.go(n);
+	  };
+	
+	  var goBack = function goBack() {
+	    return go(-1);
+	  };
+	
+	  var goForward = function goForward() {
+	    return go(1);
+	  };
+	
+	  var listenerCount = 0;
+	
+	  var checkDOMListeners = function checkDOMListeners(delta) {
+	    listenerCount += delta;
+	
+	    if (listenerCount === 1) {
+	      (0, _DOMUtils.addEventListener)(window, HashChangeEvent, handleHashChange);
+	    } else if (listenerCount === 0) {
+	      (0, _DOMUtils.removeEventListener)(window, HashChangeEvent, handleHashChange);
+	    }
+	  };
+	
+	  var isBlocked = false;
+	
+	  var block = function block() {
+	    var prompt = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	
+	    var unblock = transitionManager.setPrompt(prompt);
+	
+	    if (!isBlocked) {
+	      checkDOMListeners(1);
+	      isBlocked = true;
+	    }
+	
+	    return function () {
+	      if (isBlocked) {
+	        isBlocked = false;
+	        checkDOMListeners(-1);
+	      }
+	
+	      return unblock();
+	    };
+	  };
+	
+	  var listen = function listen(listener) {
+	    var unlisten = transitionManager.appendListener(listener);
+	    checkDOMListeners(1);
+	
+	    return function () {
+	      checkDOMListeners(-1);
+	      return unlisten();
+	    };
+	  };
+	
+	  var history = {
+	    length: globalHistory.length,
+	    action: 'POP',
+	    location: initialLocation,
+	    push: push,
+	    replace: replace,
+	    go: go,
+	    goBack: goBack,
+	    goForward: goForward,
+	    block: block,
+	    listen: listen
+	  };
+	
+	  return history;
+	};
+	
+	exports.default = createHashHistory;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 304)))
+
+/***/ },
+/* 599 */
+/*!******************************************!*\
+  !*** ./~/history/createMemoryHistory.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	exports.__esModule = true;
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _warning = __webpack_require__(/*! warning */ 593);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	var _LocationUtils = __webpack_require__(/*! ./LocationUtils */ 589);
+	
+	var _createTransitionManager = __webpack_require__(/*! ./createTransitionManager */ 595);
+	
+	var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var clamp = function clamp(n, lowerBound, upperBound) {
+	  return Math.min(Math.max(n, lowerBound), upperBound);
+	};
+	
+	/**
+	 * Creates a history object that stores locations in memory.
+	 */
+	var createMemoryHistory = function createMemoryHistory() {
+	  var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	  var getUserConfirmation = props.getUserConfirmation;
+	  var _props$initialEntries = props.initialEntries;
+	  var initialEntries = _props$initialEntries === undefined ? ['/'] : _props$initialEntries;
+	  var _props$initialIndex = props.initialIndex;
+	  var initialIndex = _props$initialIndex === undefined ? 0 : _props$initialIndex;
+	  var _props$keyLength = props.keyLength;
+	  var keyLength = _props$keyLength === undefined ? 6 : _props$keyLength;
+	
+	
+	  var transitionManager = (0, _createTransitionManager2.default)();
+	
+	  var setState = function setState(nextState) {
+	    _extends(history, nextState);
+	
+	    history.length = history.entries.length;
+	
+	    transitionManager.notifyListeners(history.location, history.action);
+	  };
+	
+	  var createKey = function createKey() {
+	    return Math.random().toString(36).substr(2, keyLength);
+	  };
+	
+	  var index = clamp(initialIndex, 0, initialEntries.length - 1);
+	  var entries = initialEntries.map(function (entry, index) {
+	    return typeof entry === 'string' ? (0, _LocationUtils.createLocation)(entry, undefined, index ? createKey() : undefined) : (0, _LocationUtils.createLocation)(entry, undefined, index ? entry.key || createKey() : undefined);
+	  });
+	
+	  // Public interface
+	
+	  var push = function push(path, state) {
+	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : void 0;
+	
+	    var action = 'PUSH';
+	    var location = (0, _LocationUtils.createLocation)(path, state, createKey(), history.location);
+	
+	    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+	      if (!ok) return;
+	
+	      var prevIndex = history.index;
+	      var nextIndex = prevIndex + 1;
+	
+	      var nextEntries = history.entries.slice(0);
+	      if (nextEntries.length > nextIndex) {
+	        nextEntries.splice(nextIndex, nextEntries.length - nextIndex, location);
+	      } else {
+	        nextEntries.push(location);
+	      }
+	
+	      setState({
+	        action: action,
+	        location: location,
+	        index: nextIndex,
+	        entries: nextEntries
+	      });
+	    });
+	  };
+	
+	  var replace = function replace(path, state) {
+	    process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : void 0;
+	
+	    var action = 'REPLACE';
+	    var location = (0, _LocationUtils.createLocation)(path, state, createKey(), history.location);
+	
+	    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+	      if (!ok) return;
+	
+	      history.entries[history.index] = location;
+	
+	      setState({ action: action, location: location });
+	    });
+	  };
+	
+	  var go = function go(n) {
+	    var nextIndex = clamp(history.index + n, 0, history.entries.length - 1);
+	
+	    var action = 'POP';
+	    var location = history.entries[nextIndex];
+	
+	    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+	      if (ok) {
+	        setState({
+	          action: action,
+	          location: location,
+	          index: nextIndex
+	        });
+	      } else {
+	        // Mimic the behavior of DOM histories by
+	        // causing a render after a cancelled POP.
+	        setState();
+	      }
+	    });
+	  };
+	
+	  var goBack = function goBack() {
+	    return go(-1);
+	  };
+	
+	  var goForward = function goForward() {
+	    return go(1);
+	  };
+	
+	  var canGo = function canGo(n) {
+	    var nextIndex = history.index + n;
+	    return nextIndex >= 0 && nextIndex < history.entries.length;
+	  };
+	
+	  var block = function block() {
+	    var prompt = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	    return transitionManager.setPrompt(prompt);
+	  };
+	
+	  var listen = function listen(listener) {
+	    return transitionManager.appendListener(listener);
+	  };
+	
+	  var history = {
+	    length: entries.length,
+	    action: 'POP',
+	    location: entries[index],
+	    index: index,
+	    entries: entries,
+	    push: push,
+	    replace: replace,
+	    go: go,
+	    goBack: goBack,
+	    goForward: goForward,
+	    canGo: canGo,
+	    block: block,
+	    listen: listen
+	  };
+	
+	  return history;
+	};
+	
+	exports.default = createMemoryHistory;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 304)))
+
+/***/ },
+/* 600 */
+/*!*********************************!*\
+  !*** ./develop/scss/index.scss ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader?sourceMap!./../../~/resolve-url-loader!./../../~/sass-loader?sourceMap!./index.scss */ 601);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/resolve-url-loader/index.js!./../../node_modules/sass-loader/index.js?sourceMap!./index.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/resolve-url-loader/index.js!./../../node_modules/sass-loader/index.js?sourceMap!./index.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 601 */
+/*!***********************************************************************************************************!*\
+  !*** ./~/css-loader?sourceMap!./~/resolve-url-loader!./~/sass-loader?sourceMap!./develop/scss/index.scss ***!
+  \***********************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "html,\nbody,\ndiv,\nspan,\napplet,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\nu,\ni,\ncenter,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\narticle,\naside,\ncanvas,\ndetails,\nembed,\nfigure,\nfigcaption,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\noutput,\nruby,\nsection,\nsummary,\ntime,\nmark,\naudio,\nvideo {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline;\n}\n\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\nsection {\n  display: block;\n}\n\nbody {\n  line-height: 1;\n}\n\nol,\nul {\n  list-style: none;\n}\n\nblockquote,\nq {\n  quotes: none;\n}\n\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n  content: '';\n  content: none;\n}\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\nbody {\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n}\n\nheader {\n  max-width: 300px;\n  height: 40px;\n  padding: 5px;\n  text-align: center;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 40px;\n  margin: 0 auto;\n  border: 2px solid black;\n}\n\n.pokemonsWrap {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  text-align: center;\n  max-width: 50%;\n  margin: 0 auto;\n}\n\n.pokemonsWrap .itemWrap {\n  flex: 1 1 30%;\n  max-width: 180px;\n  height: 225px;\n  margin: 10px;\n}\n\n@media screen and (min-width: 1300px) {\n  .pokemonsWrap .itemWrap {\n    max-width: 30%;\n  }\n}\n\n.pokemonsWrap .itemWrap .pokemonItem {\n  height: 100%;\n  width: 100%;\n  margin-top: 10px;\n  border: 2px solid black;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  overflow: hidden;\n}\n\n.pokemonsWrap .itemWrap .pokemonItem img {\n  margin: 5px;\n  align-self: center;\n  min-height: 120px;\n}\n\n.pokemonsWrap .itemWrap .pokemonItem h1 {\n  font-weight: 600;\n}\n\n.pokemonsWrap .itemWrap .pokemonItem ul {\n  display: flex;\n  margin: 5px;\n  height: 50px;\n}\n\n.pokemonsWrap .itemWrap .pokemonItem ul li {\n  margin-left: 5px;\n  height: 20px;\n  padding: 2px;\n  min-width: 55px;\n}\n\n.pokemonsWrap .itemWrap .pokemonItem div {\n  margin-top: 5px;\n  background: #e7a61a;\n  width: 70px;\n  height: 20px;\n  line-height: 20px;\n  cursor: pointer;\n  align-self: flex-end;\n  box-shadow: 0px 0px 19px 15px #e7a61a;\n  border-top-left-radius: 10px;\n}\n\n.loadMore {\n  height: 50px;\n  max-width: 50%;\n  margin: 15px auto;\n  text-align: center;\n  line-height: 50px;\n  background: #008CFF;\n  color: white;\n  border-radius: 5px;\n  font-size: 20px;\n  font-weight: 600;\n  cursor: pointer;\n  border: 1px solid black;\n  transition: all 200ms;\n}\n\n.loadMore:active {\n  background: #005499;\n  color: #cccccc;\n}\n\n.grass {\n  background: linear-gradient(to bottom, #d2ff52 0%, #91e842 100%);\n  border: 2px solid #5eaf15;\n  border-radius: 4px;\n}\n\n.grass:first-letter {\n  text-transform: uppercase;\n}\n\n.poison {\n  background: linear-gradient(to bottom, #d6c7dd 0%, #9273a1 100%);\n  border: 2px solid #5d4668;\n  border-radius: 4px;\n}\n\n.poison:first-letter {\n  text-transform: uppercase;\n}\n\n.fire {\n  background: linear-gradient(to bottom, #f5bdbb 0%, #d5716c 100%);\n  border: 2px solid #aa3631;\n  border-radius: 4px;\n}\n\n.fire:first-letter {\n  text-transform: uppercase;\n}\n\n.normal {\n  background: linear-gradient(to bottom, rgba(245, 189, 187, 0.3) 0%, #79794e 100%);\n  border: 2px solid #3b3b26;\n  border-radius: 4px;\n}\n\n.normal:first-letter {\n  text-transform: uppercase;\n}\n\n.water {\n  background: linear-gradient(to bottom, rgba(61, 112, 236, 0.3) 0%, #3d70ec 100%);\n  border: 2px solid #1140b2;\n  border-radius: 4px;\n}\n\n.water:first-letter {\n  text-transform: uppercase;\n}\n\n.electric {\n  background: linear-gradient(to bottom, rgba(255, 237, 187, 0.3) 0%, #e6cc7d 100%);\n  border: 2px solid #d4aa29;\n  border-radius: 4px;\n}\n\n.electric:first-letter {\n  text-transform: uppercase;\n}\n\n.ice {\n  background: linear-gradient(to bottom, rgba(113, 201, 201, 0.3) 0%, #71c9c9 100%);\n  border: 2px solid #3a9a9a;\n  border-radius: 4px;\n}\n\n.ice:first-letter {\n  text-transform: uppercase;\n}\n\n.fighting {\n  background: linear-gradient(to bottom, rgba(165, 41, 35, 0.3) 0%, #a52923 100%);\n  border: 2px solid #511411;\n  border-radius: 4px;\n}\n\n.fighting:first-letter {\n  text-transform: uppercase;\n}\n\n.flying {\n  background: linear-gradient(to bottom, rgba(154, 134, 214, 0.3) 0%, #9a86d6 100%);\n  border: 2px solid #5d3eb8;\n  border-radius: 4px;\n}\n\n.flying:first-letter {\n  text-transform: uppercase;\n}\n\n.ground {\n  background: linear-gradient(to bottom, rgba(215, 173, 60, 0.3) 0%, #d7ad3c 100%);\n  border: 2px solid #90711d;\n  border-radius: 4px;\n}\n\n.ground:first-letter {\n  text-transform: uppercase;\n}\n\n.psychic {\n  background: linear-gradient(to bottom, rgba(247, 56, 113, 0.3) 0%, #f73871 100%);\n  border: 2px solid #c1083f;\n  border-radius: 4px;\n}\n\n.psychic:first-letter {\n  text-transform: uppercase;\n}\n\n.bug {\n  background: linear-gradient(to bottom, rgba(154, 168, 29, 0.3) 0%, #9aa81d 100%);\n  border: 2px solid #4a510e;\n  border-radius: 4px;\n}\n\n.bug:first-letter {\n  text-transform: uppercase;\n}\n\n.rock {\n  background: linear-gradient(to bottom, rgba(164, 143, 50, 0.3) 0%, #a48f32 100%);\n  border: 2px solid #564b1a;\n  border-radius: 4px;\n}\n\n.rock:first-letter {\n  text-transform: uppercase;\n}\n\n.ghost {\n  background: linear-gradient(to bottom, rgba(93, 73, 127, 0.3) 0%, #5d497f 100%);\n  border: 2px solid #2e243e;\n  border-radius: 4px;\n}\n\n.ghost:first-letter {\n  text-transform: uppercase;\n}\n\n.dragon {\n  background: linear-gradient(to bottom, rgba(84, 19, 241, 0.3) 0%, #5413f1 100%);\n  border: 2px solid #320995;\n  border-radius: 4px;\n}\n\n.dragon:first-letter {\n  text-transform: uppercase;\n}\n\n.dark {\n  background: linear-gradient(to bottom, rgba(94, 74, 61, 0.3) 0%, #5e4a3d 100%);\n  border: 2px solid #201915;\n  border-radius: 4px;\n}\n\n.dark:first-letter {\n  text-transform: uppercase;\n}\n\n.steel {\n  background: linear-gradient(to bottom, rgba(161, 161, 193, 0.3) 0%, #a1a1c1 100%);\n  border: 2px solid #646498;\n  border-radius: 4px;\n}\n\n.steel:first-letter {\n  text-transform: uppercase;\n}\n\n.fairy {\n  background: linear-gradient(to bottom, rgba(224, 119, 224, 0.3) 0%, #e077e0 100%);\n  border: 2px solid #c42dc4;\n  border-radius: 4px;\n}\n\n.fairy:first-letter {\n  text-transform: uppercase;\n}\n\n.highlight {\n  box-shadow: inset 0px 0px 39px 6px #e7a61a;\n}\n\n.hidden {\n  display: none;\n}\n\n", "", {"version":3,"sources":["/./develop/scss/reset.scss","/./develop/scss/index.scss","/./develop/scss/global.scss","/./develop/scss/header.scss","/./develop/scss/pokemonItem.scss","/./develop/scss/loadMore.scss","/./develop/scss/types.scss","/./develop/scss/variables.scss","/./develop/scss/jsStyles.scss"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAaE,UAAA;EACA,WAAA;EACA,UAAA;EACA,gBAAA;EACA,cAAA;EACA,yBAAA;CCqED;;ADlED;;;;;;;;;;;EAEE,eAAA;CC8ED;;AD5ED;EACE,eAAA;CC+ED;;AD7ED;;EACE,iBAAA;CCiFD;;AD/ED;;EACE,aAAA;CCmFD;;ADjFD;;;;EAEE,YAAA;EACA,cAAA;CCsFD;;ADpFD;EACE,0BAAA;EACA,kBAAA;CCuFD;;AC9HD;EACC,kCAAA;EACA,gBAAA;CDiIA;;AEnID;EACC,iBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,kCAAA;EACA,gBAAA;EACA,eAAA;EACA,wBAAA;CFsIA;;AG9ID;EACC,cAAA;EACA,gBAAA;EACA,+BAAA;EACA,mBAAA;EACA,eAAA;EACA,eAAA;CHiJA;;AGvJD;EAQE,cAAA;EACA,iBAAA;EACA,cAAA;EACA,aAAA;CHmJD;;AGlJC;EAZF;IAcG,eAAA;GHqJA;CACF;;AGpKD;EAiBG,aAAA;EACA,YAAA;EACA,iBAAA;EACA,wBAAA;EACA,cAAA;EACA,uBAAA;EACA,+BAAA;EACA,iBAAA;CHuJF;;AGtJE;EACC,YAAA;EACA,mBAAA;EACA,kBAAA;CHyJH;;AGrLD;EA+BI,iBAAA;CH0JH;;AGzLD;EAkCI,cAAA;EACA,YAAA;EACA,aAAA;CH2JH;;AG1JG;EACC,iBAAA;EACA,aAAA;EACA,aAAA;EACA,gBAAA;CH6JJ;;AGtMD;EA8CI,gBAAA;EACA,oBAAA;EACA,YAAA;EACA,aAAA;EACA,kBAAA;EACA,gBAAA;EACA,qBAAA;EACA,sCAAA;EACA,6BAAA;CH4JH;;AIlND;EACC,aAAA;EACA,eAAA;EACA,kBAAA;EACA,mBAAA;EACA,kBAAA;EACA,oBAAA;EACA,aAAA;EACA,mBAAA;EACA,gBAAA;EACA,iBAAA;EACA,gBAAA;EACA,wBAAA;EACA,sBAAA;CJqNA;;AIlOD;EAeE,oBAAA;EACA,eAAA;CJuND;;AKvOD;ECQC,iEAAA;EACA,0BAAA;EACA,mBAAA;CNmOA;;AK7OD;ECYE,0BAAA;CNqOD;;AK7OD;ECIC,iEAAA;EACA,0BAAA;EACA,mBAAA;CN6OA;;AKnPD;ECQE,0BAAA;CN+OD;;AKnPD;ECAC,iEAAA;EACA,0BAAA;EACA,mBAAA;CNuPA;;AKzPD;ECIE,0BAAA;CNyPD;;AKzPD;ECJC,kFAAA;EACA,0BAAA;EACA,mBAAA;CNiQA;;AK/PD;ECAE,0BAAA;CNmQD;;AK/PD;ECRC,iFAAA;EACA,0BAAA;EACA,mBAAA;CN2QA;;AKrQD;ECJE,0BAAA;CN6QD;;AKrQD;ECZC,kFAAA;EACA,0BAAA;EACA,mBAAA;CNqRA;;AK3QD;ECRE,0BAAA;CNuRD;;AK3QD;EChBC,kFAAA;EACA,0BAAA;EACA,mBAAA;CN+RA;;AKjRD;ECZE,0BAAA;CNiSD;;AKjRD;ECpBC,gFAAA;EACA,0BAAA;EACA,mBAAA;CNySA;;AKvRD;EChBE,0BAAA;CN2SD;;AKvRD;ECxBC,kFAAA;EACA,0BAAA;EACA,mBAAA;CNmTA;;AK7RD;ECpBE,0BAAA;CNqTD;;AK7RD;EC5BC,iFAAA;EACA,0BAAA;EACA,mBAAA;CN6TA;;AKnSD;ECxBE,0BAAA;CN+TD;;AKnSD;EChCC,iFAAA;EACA,0BAAA;EACA,mBAAA;CNuUA;;AKzSD;EC5BE,0BAAA;CNyUD;;AKzSD;ECpCC,iFAAA;EACA,0BAAA;EACA,mBAAA;CNiVA;;AK/SD;EChCE,0BAAA;CNmVD;;AK/SD;ECxCC,iFAAA;EACA,0BAAA;EACA,mBAAA;CN2VA;;AKrTD;ECpCE,0BAAA;CN6VD;;AKrTD;EC5CC,gFAAA;EACA,0BAAA;EACA,mBAAA;CNqWA;;AK3TD;ECxCE,0BAAA;CNuWD;;AK3TD;EChDC,gFAAA;EACA,0BAAA;EACA,mBAAA;CN+WA;;AKjUD;EC5CE,0BAAA;CNiXD;;AKjUD;ECpDC,+EAAA;EACA,0BAAA;EACA,mBAAA;CNyXA;;AKvUD;EChDE,0BAAA;CN2XD;;AKvUD;ECxDC,kFAAA;EACA,0BAAA;EACA,mBAAA;CNmYA;;AK7UD;ECpDE,0BAAA;CNqYD;;AK7UD;EC5DC,kFAAA;EACA,0BAAA;EACA,mBAAA;CN6YA;;AKnVD;ECxDE,0BAAA;CN+YD;;AO3ZD;EACC,2CAAA;CP8ZA;;AO5ZD;EACC,cAAA;CP+ZA","file":"index.scss","sourcesContent":["html, body, div, span, applet, object, iframe,\r\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\r\na, abbr, acronym, address, big, cite, code,\r\ndel, dfn, em, img, ins, kbd, q, s, samp,\r\nsmall, strike, strong, sub, sup, tt, var,\r\nb, u, i, center,\r\ndl, dt, dd, ol, ul, li,\r\nfieldset, form, label, legend,\r\ntable, caption, tbody, tfoot, thead, tr, th, td,\r\narticle, aside, canvas, details, embed,\r\nfigure, figcaption, footer, header, hgroup,\r\nmenu, nav, output, ruby, section, summary,\r\ntime, mark, audio, video {\r\n  margin: 0;\r\n  padding: 0;\r\n  border: 0;\r\n  font-size: 100%;\r\n  font: inherit;\r\n  vertical-align: baseline;\r\n}\r\n// HTML5 display-role reset for older browsers\r\narticle, aside, details, figcaption, figure,\r\nfooter, header, hgroup, menu, nav, section {\r\n  display: block;\r\n}\r\nbody {\r\n  line-height: 1;\r\n}\r\nol, ul {\r\n  list-style: none;\r\n}\r\nblockquote, q {\r\n  quotes: none;\r\n}\r\nblockquote:before, blockquote:after,\r\nq:before, q:after {\r\n  content: '';\r\n  content: none;\r\n}\r\ntable {\r\n  border-collapse: collapse;\r\n  border-spacing: 0;\r\n}","@import 'reset.scss';\r\n@import 'global.scss';\r\n@import 'header.scss';\r\n@import 'pokemonItem.scss';\r\n@import 'loadMore.scss';\r\n@import 'types.scss';\r\n@import 'jsStyles.scss';","@import 'variables.scss';\r\n\r\nbody{\r\n\tfont-family: $main-font;\r\n\tfont-size: 16px;\r\n}\r\n","@import 'variables.scss';\r\n\r\nheader {\r\n\tmax-width: 300px;\r\n\theight: 40px; \r\n\tpadding: 5px; \r\n\ttext-align: center;\r\n\tfont-family: $main-font; \r\n\tfont-size: 40px; \r\n\tmargin: 0 auto;\r\n\tborder: 2px solid black;\r\n}\r\n\r\n","@import 'variables.scss';\r\n\r\n.pokemonsWrap{\r\n\tdisplay: flex;\r\n\tflex-wrap: wrap;\r\n\tjustify-content: space-between;\r\n\ttext-align: center;\r\n\tmax-width: 50%;\r\n\tmargin: 0 auto;  \r\n\t.itemWrap{\r\n\t\tflex: 1 1 30%;\r\n\t\tmax-width: 180px;\r\n\t\theight: 225px; \r\n\t\tmargin: 10px;\r\n\t\t@media screen and (min-width: 1300px){\r\n\t\t\t//Ð´Ð»Ñ ÑÐ¾Ð³Ð¾ ÑÑÐ¾Ð±Ñ Ð¼Ð°ÐºÑÐ¸Ð¼ÑÐ¼ 3 Ð±ÑÐ»Ð¾ Ð² ÑÑÐ´Ñ Ð½Ð° Ð¾Ð³ÑÐ¾Ð¼Ð½ÑÑ ÑÐºÑÐ°Ð½Ð°Ñ\r\n\t\t\tmax-width: 30%;\r\n\t\t} \r\n\t\t.pokemonItem{ \r\n\t\t\theight: 100%;\r\n\t\t\twidth: 100%;  \r\n\t\t\tmargin-top: 10px;\r\n\t\t\tborder: 2px solid $itemBorder;\r\n\t\t\tdisplay: flex;\r\n\t\t\tflex-direction: column;\r\n\t\t\tjustify-content: space-between;\r\n\t\t\toverflow: hidden;\r\n\t\t\timg{\r\n\t\t\t\tmargin: 5px; \r\n\t\t\t\talign-self: center;\r\n\t\t\t\tmin-height: 120px; \r\n\t\t\t} \r\n\t\t\th1{\r\n\t\t\t\tfont-weight: 600; \r\n\t\t\t} \r\n\t\t\tul{\r\n\t\t\t\tdisplay: flex;\r\n\t\t\t\tmargin: 5px;\r\n\t\t\t\theight: 50px;\r\n\t\t\t\tli{\r\n\t\t\t\t\tmargin-left: 5px; \r\n\t\t\t\t\theight: 20px;\r\n\t\t\t\t\tpadding: 2px;\r\n\t\t\t\t\tmin-width: 55px;   \t  \r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\t//div - addFavorite/removeFavorite\r\n\t\t\tdiv{\r\n\t\t\t\tmargin-top: 5px; \r\n\t\t\t\tbackground: $highlight;\r\n\t\t\t\twidth: 70px;\r\n\t\t\t\theight: 20px;  \r\n\t\t\t\tline-height: 20px; \r\n\t\t\t\tcursor: pointer;\r\n\t\t\t\talign-self: flex-end;\r\n\t\t\t\tbox-shadow: 0px 0px 19px 15px $highlight; \r\n\t\t\t\tborder-top-left-radius: 10px; \r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n","@import 'variables.scss';\r\n\r\n.loadMore{\r\n\theight: 50px; \r\n\tmax-width: 50%; \r\n\tmargin: 15px auto;\r\n\ttext-align: center;\r\n\tline-height: 50px;\r\n\tbackground: $loadMoreBtn;\r\n\tcolor: white;  \r\n\tborder-radius: 5px;\r\n\tfont-size: 20px;\r\n\tfont-weight: 600; \r\n\tcursor: pointer;\r\n\tborder: 1px solid black;\r\n\ttransition: all 200ms; \r\n\t&:active{\r\n\t\tbackground: darken($loadMoreBtn, 20%);\r\n\t\tcolor: darken(white, 20%);\r\n\t}   \r\n}","@import 'variables.scss';\r\n\r\n.grass{\r\n\t@include types(rgba(210,255,82,1) , rgba(145,232,66,1));\r\n}\r\n\r\n.poison{\r\n\t@include types(rgba(214,199,221,1), rgba(146,115,161,1));\r\n}\r\n\r\n.fire{\r\n\t@include types(rgba(245,189,187,1), rgba(213,113,108,1));\r\n}\r\n\r\n.normal{\r\n\t@include types(rgba(245,189,187,.3), rgba(121,121,78,1));\r\n}\r\n\r\n.water{\r\n\t@include types(rgba(61,112,236,.3), rgba(61,112,236,1));\r\n}\r\n\r\n.electric{\r\n\t@include types(rgba(255,237,187,.3), rgba(230,204,125,1));\r\n}\r\n\r\n.ice{\r\n\t@include types(rgba(113,201,201,.3), rgba(113,201,201,1));\r\n}\r\n\r\n.fighting{\r\n\t@include types(rgba(165,41,35,.3), rgba(165,41,35,1));\r\n}\r\n\r\n.flying{\r\n\t@include types(rgba(154,134,214,.3), rgba(154,134,214,1));\r\n}\r\n\r\n.ground{\r\n\t@include types(rgba(215,173,60,.3), rgba(215,173,60,1));\r\n}\r\n\r\n.psychic{\r\n\t@include types(rgba(247,56,113,.3), rgba(247,56,113,1));\r\n}\r\n\r\n.bug{\r\n\t@include types(rgba(154,168,29,.3), rgba(154,168,29,1));\r\n}\r\n\r\n.rock{\r\n\t@include types(rgba(164,143,50,.3), rgba(164,143,50,1));\r\n}\r\n\r\n.ghost{\r\n\t@include types(rgba(93,73,127,.3), rgba(93,73,127,1));\r\n}\r\n\r\n.dragon{\r\n\t@include types(rgba(84,19,241,.3), rgba(84,19,241,1));\r\n}\r\n\r\n.dark{\r\n\t@include types(rgba(94,74,61,.3), rgba(94,74,61,1));\r\n}\r\n\r\n.steel{\r\n\t@include types(rgba(161,161,193,.3), rgba(161,161,193,1));\r\n}\r\n\r\n.fairy{\r\n\t@include types(rgba(224,119,224,.3), rgba(224,119,224,1));\r\n}","// COLORS\r\n$itemBorder: black;\r\n$loadMoreBtn: #008CFF;\r\n$highlight: rgba(231,166,26,1);\r\n\r\n// FONTS\r\n$main-font: 'Roboto',sans-serif;\r\n\r\n//MIXINS\r\n@mixin types($from, $to) {\r\n\tbackground: linear-gradient(to bottom, $from 0%, $to 100%);\r\n\tborder: 2px solid darken($to, 20%);\r\n\tborder-radius: 4px;\r\n\t&:first-letter{\r\n\t\ttext-transform: uppercase;\r\n\t}\r\n}\r\n\r\n","@import 'variables.scss';\r\n\r\n.highlight{\r\n\tbox-shadow: inset 0px 0px 39px 6px $highlight; \r\n}\r\n.hidden{\r\n\tdisplay: none;\r\n}"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
 
 /***/ }
 /******/ ]);
