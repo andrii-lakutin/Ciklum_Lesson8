@@ -1,0 +1,21 @@
+@import 'variables.scss';
+
+.loadMore{
+	height: 50px; 
+	max-width: 50%; 
+	margin: 15px auto;
+	text-align: center;
+	line-height: 50px;
+	background: $loadMoreBtn;
+	color: white;  
+	border-radius: 5px;
+	font-size: 20px;
+	font-weight: 600; 
+	cursor: pointer;
+	border: 1px solid black;
+	transition: all 200ms; 
+	&:active{
+		background: darken($loadMoreBtn, 20%);
+		color: darken(white, 20%);
+	}   
+}

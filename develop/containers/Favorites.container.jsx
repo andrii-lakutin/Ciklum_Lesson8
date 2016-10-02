@@ -25,7 +25,7 @@ const mapStateToProps = (state, ownProps) => ({
 function mapDispatchToProps (dispatch){
     return {
     	removePokemon: (e) => {
-    		if (e.target.classList.contains('removeToFavorite')) {
+    		if (e.target.classList.contains('removeFavorite')) {
     			//в каком месте правильно работать с localStorage?
             	for (let key in localStorage){
             		let item = JSON.parse(localStorage[key]);

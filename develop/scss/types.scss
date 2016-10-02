@@ -1,0 +1,73 @@
+@import 'variables.scss';
+
+.grass{
+	@include types(rgba(210,255,82,1) , rgba(145,232,66,1));
+}
+
+.poison{
+	@include types(rgba(214,199,221,1), rgba(146,115,161,1));
+}
+
+.fire{
+	@include types(rgba(245,189,187,1), rgba(213,113,108,1));
+}
+
+.normal{
+	@include types(rgba(245,189,187,.3), rgba(121,121,78,1));
+}
+
+.water{
+	@include types(rgba(61,112,236,.3), rgba(61,112,236,1));
+}
+
+.electric{
+	@include types(rgba(255,237,187,.3), rgba(230,204,125,1));
+}
+
+.ice{
+	@include types(rgba(113,201,201,.3), rgba(113,201,201,1));
+}
+
+.fighting{
+	@include types(rgba(165,41,35,.3), rgba(165,41,35,1));
+}
+
+.flying{
+	@include types(rgba(154,134,214,.3), rgba(154,134,214,1));
+}
+
+.ground{
+	@include types(rgba(215,173,60,.3), rgba(215,173,60,1));
+}
+
+.psychic{
+	@include types(rgba(247,56,113,.3), rgba(247,56,113,1));
+}
+
+.bug{
+	@include types(rgba(154,168,29,.3), rgba(154,168,29,1));
+}
+
+.rock{
+	@include types(rgba(164,143,50,.3), rgba(164,143,50,1));
+}
+
+.ghost{
+	@include types(rgba(93,73,127,.3), rgba(93,73,127,1));
+}
+
+.dragon{
+	@include types(rgba(84,19,241,.3), rgba(84,19,241,1));
+}
+
+.dark{
+	@include types(rgba(94,74,61,.3), rgba(94,74,61,1));
+}
+
+.steel{
+	@include types(rgba(161,161,193,.3), rgba(161,161,193,1));
+}
+
+.fairy{
+	@include types(rgba(224,119,224,.3), rgba(224,119,224,1));
+}

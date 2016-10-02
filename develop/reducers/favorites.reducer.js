@@ -3,9 +3,18 @@ import favoritesTypes from '../actions/types/favorites.types';
 export default (state = {}, action) => {
     switch (action.type) {
         case favoritesTypes.ADD_FAVORITE:
-        	return {
-                ...state, ...{items: state.items.concat(action.target)}
-            };
+            //проверка на повторы
+            state.items.forEach((item,index) => {
+                if (item.name === action.target.name) {
+                    return {
+                        ...state
+                    }
+                } else {
+                    return {
+                        ...state, ...{items: state.items.concat(action.target)}
+                    };   
+                }
+            });
         case favoritesTypes.REMOVE_FAVORITE:
         	state.items.forEach((item,index) => {
         		if (action.target.name === item.name) {

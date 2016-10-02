@@ -1,0 +1,8 @@
+@import 'variables.scss';
+
+.highlight{
+	box-shadow: inset 0px 0px 39px 6px $highlight; 
+}
+.hidden{
+	display: none;
+}

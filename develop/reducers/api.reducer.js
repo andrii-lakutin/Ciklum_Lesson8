@@ -7,9 +7,12 @@ export default (state = {}, action) => {
                 ...state, ...{apiStatus : 'PENDING' }
             };
         case apiTypes.RECEIVE_POKEMONS:
-            if (state.apiData !== undefined) {
-                return {
-                    ...state, ...{apiStatus : 'COMPLETE', apiData : state.apiData.concat(action.json.objects) }
+            if (state.apiData[0] !== undefined) {
+                //проверка чтобы не склеивать с изначальным массивом такой же.
+                if (state.apiData[0].name !== action.json.objects[0].name) {
+                    return {
+                        ...state, ...{apiStatus : 'COMPLETE', apiData : state.apiData.concat(action.json.objects) }
+                    }
                 }
             } else {
                 return {

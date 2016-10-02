@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 header {
-	width: 300px;
+	max-width: 300px;
 	height: 40px; 
 	padding: 5px; 
 	text-align: center;
@@ -10,3 +10,4 @@ header {
 	margin: 0 auto;
 	border: 2px solid black;
 }
+

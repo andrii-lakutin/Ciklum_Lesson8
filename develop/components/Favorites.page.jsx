@@ -10,7 +10,7 @@ class FavoritesPage extends Component {
 
         this.props.items.map((item, index)=>{
         	pokemons.push(
-            <li key={index}>
+            <li key={index} className='itemWrap'>
                 <PokemonItem 
                     name={item.name} 
                     types={item.types} 
@@ -29,7 +29,7 @@ class FavoritesPage extends Component {
 
         return (
             <div>
-            	<ul onClick={removePokemon}>
+            	<ul onClick={removePokemon} className="pokemonsWrap">
                     {this.generatePokemons()}
                 </ul>
             </div>

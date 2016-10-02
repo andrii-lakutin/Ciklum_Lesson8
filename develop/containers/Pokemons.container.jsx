@@ -50,8 +50,11 @@ function mapDispatchToProps (dispatch){
         loadMoreAction : () => dispatch(asyncGet(`http://pokeapi.co/api/v1/pokemon/?limit=12&offset=${paging += 12}`)),
         getFromStorageAction: () => dispatch(getFromStorage()),
         addToFavorite  : (e) => { 
-            if (e.target.classList.contains('addToFavorite')) {
-
+            if (e.target.classList.contains('addFavorite')) {
+                //где лучше применять стили? тоже через action?
+                e.target.closest('.pokemonItem').classList.add('highlight');
+                e.target.classList.add('hidden');
+                
                 store.map((item, index) =>{
                     if (item.name === e.target.closest('.pokemonItem').childNodes[1].innerHTML) {
                         localStorage.setItem(item.name, JSON.stringify(item));

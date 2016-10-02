@@ -11,7 +11,7 @@ class PokemonsPage extends Component {
         if (this.props.pokemonsArray !== undefined) {
             this.props.pokemonsArray.map((item,index) =>{
                 pokemons.push(
-                    <li key={index}>
+                    <li key={index} className='itemWrap'>
                         <PokemonItem 
                             name={item.name} 
                             types={item.types} 
@@ -29,10 +29,10 @@ class PokemonsPage extends Component {
 
         return (
             <div>
-                <ul onClick={addToFavorite} >
+                <ul onClick={addToFavorite} className="pokemonsWrap">
                     {this.generatePokemons()}
                 </ul>
-                <div onClick={loadMoreAction}>LOAD MORE</div>
+                <div className="loadMore" onClick={loadMoreAction}>Load More</div>
             </div>
         );
     }
