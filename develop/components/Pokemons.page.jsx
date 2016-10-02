@@ -5,29 +5,31 @@ import PokemonItem from './PokemonItem.jsx';
 class PokemonsPage extends Component {
 
     generatePokemons(){
+
         let pokemons = [];
+
         if (this.props.pokemonsArray !== undefined) {
             this.props.pokemonsArray.map((item,index) =>{
-                pokemons.push(<li key={index}>
-                                <PokemonItem name={item.name} types={item.types} id={item.pkdx_id}/>
-                             </li>)
+                pokemons.push(
+                    <li key={index}>
+                        <PokemonItem 
+                            name={item.name} 
+                            types={item.types} 
+                            id={item.pkdx_id}
+                            action={'add'}
+                        />
+                    </li>)
             }); 
         }     
         return pokemons;
     }
 
-    print(){
-        const pokemons = this.props.pokemonsArray;
-        console.log(pokemons);
-    }
-
     render() {
-        const {initialLoading,loadMoreAction } = this.props;
+        const {loadMoreAction,addToFavorite} = this.props;
 
         return (
             <div>
-                <div onClick={initialLoading}>initialLoading</div>
-                <ul>
+                <ul onClick={addToFavorite} >
                     {this.generatePokemons()}
                 </ul>
                 <div onClick={loadMoreAction}>LOAD MORE</div>
@@ -37,8 +39,8 @@ class PokemonsPage extends Component {
 }
 
 PokemonsPage.propTypes = {
-    initialLoading: PropTypes.func,
     loadMoreAction: PropTypes.func,
+    addToFavorite : PropTypes.func,
 };
 
 export default PokemonsPage;

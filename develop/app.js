@@ -14,8 +14,13 @@ import appHistory from './config/appHistory';
 import styles from  "./scss/index.scss";
 
 const initialState = {
-	apiStatus : "",
-	apiData: [],
+	api: {
+		apiStatus : "",
+		apiData: [],
+	},
+	favorites: {
+		items: [],
+	},
 };
 const store = configureStore(initialState);
 

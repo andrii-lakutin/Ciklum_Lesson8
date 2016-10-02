@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import common from './common.reducer';
+import favorites from './favorites.reducer';
 import api from './api.reducer';
 
 const rootReducer = combineReducers({
-    common,
+    favorites,
     api,
 });
 

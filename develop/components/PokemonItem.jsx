@@ -11,11 +11,13 @@ class PokemonItem extends Component {
     }
 
     render() {
+
         return (
-            <div>
+            <div className='pokemonItem'>
                 <img src={`http://pokeapi.co/media/img/${this.props.id}.png`}/>
                 <h1>{this.props.name}</h1>
                 <ul>{this.generateTypes()}</ul>
+                <div className={this.props.action + 'ToFavorite'}>{this.props.action.toUpperCase()}</div>
             </div>
         );
     }
