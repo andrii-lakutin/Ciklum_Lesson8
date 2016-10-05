@@ -26,7 +26,7 @@ class PokemonItem extends Component {
 
         return (
             <div className={classes}>
-                <img src={`http://pokeapi.co/media/img/${this.props.id}.png`}/>
+                <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other-sprites/official-artwork/${this.props.id}.png`}/>
                 <h1>{this.props.name}</h1>
                 <ul>{this.generateTypes()}</ul>
                 <div className={btnVisibility}>{this.props.action.toUpperCase()}</div>
